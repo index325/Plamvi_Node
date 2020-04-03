@@ -12,6 +12,10 @@ const ProdutosSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    codigo_interno: {
+        type: String,
+        required: true,
+    },
     pago: {
         type: Boolean,
         required: true,

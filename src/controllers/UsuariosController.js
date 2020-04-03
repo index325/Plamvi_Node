@@ -15,8 +15,6 @@ export default {
             .min(4),
     });
 
-    console.log(req.body)
-
     if (!(await validacao.isValid(req.body))) {
         return res
             .status(400)
