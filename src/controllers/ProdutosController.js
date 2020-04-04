@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Produtos from '../models/Produtos';
 import * as Yup from 'yup';
 
-export default {
+class ProdutosController {
     async guardar(req, res) {
         const validacao = Yup.object().shape({
             preco: Yup.number()
@@ -16,23 +16,33 @@ export default {
         if (!(await validacao.isValid(req.body))) {
             return res
                 .status(400)
-                .json({ error: 'A validação está incorreta!' });
+                .json({
+                    error: 'A validação está incorreta!'
+                });
         }
-        
+
         let codigo_interno = req.body.codigo_interno
 
-        const produto = await Produtos.findOne({ codigo_interno });
+        const produto = await Produtos.findOne({
+            codigo_interno
+        });
 
         if (produto) {
-            return res.status(401).json({ error: 'O produto já foi cadastrado!' });
+            return res.status(401).json({
+                error: 'O produto já foi cadastrado!'
+            });
         }
 
         try {
             const produtos = await Produtos.create(req.body);
-    
-            return res.status(200).json({ sucess: 'O produto foi criado com sucesso!'});
+
+            return res.status(200).json({
+                sucess: 'O produto foi criado com sucesso!'
+            });
         } catch (error) {
-            return res.status(500).json({ error: 'Erro na operação de cadastro'});
+            return res.status(500).json({
+                error: 'Erro na operação de cadastro'
+            });
         }
     }
 }

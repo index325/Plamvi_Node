@@ -9,4 +9,4 @@ routes.post('/usuario', UsuariosController.guardar);
 routes.post('/login', LoginController.login);
 routes.put('/login', JwtMiddle, LoginController.atualizar);
 
-export default routes
+export default routes;
