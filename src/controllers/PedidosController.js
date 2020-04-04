@@ -27,9 +27,7 @@ class PedidosController {
 
         let _id = req.body.idUsuario;
 
-        const Usuario = await Usuarios.findOne({
-            _id
-        });
+        const Usuario = await Usuarios.findById(_id);
 
         if (!Usuario){
             return res
@@ -41,9 +39,7 @@ class PedidosController {
 
         let _id = req.body.cliente;
 
-        const Cliente = await Cliente.findOne({
-            _id
-        });
+        const Cliente = await Cliente.findById(_id);
 
         if (!Cliente){
             return res
@@ -55,9 +51,7 @@ class PedidosController {
 
         let _id = req.body.tipoEntrega;
 
-        const TipoEntrega = await TipoDeEntrega.findOne({
-            _id
-        });
+        const TipoEntrega = await TipoDeEntrega.findById(_id);
 
         if (!TipoEntrega){
             return res

@@ -21,11 +21,6 @@ const ProdutosSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    pago: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
 }, {
     timestamps: {
         createdAt: 'criadoEm',

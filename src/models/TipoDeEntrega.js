@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 // const mongooseSequence = require('mongoose-sequence')(mongoose);
 
 const TipoDeEntregaSchema = new mongoose.Schema({
-    idCliente: {
+    cliente: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Cliente',
         required: true,

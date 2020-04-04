@@ -13,6 +13,14 @@ class ProdutosController {
                 .min(10),
         });
 
+        if (!mongoose.Types.ObjectId.isValid(req.body.cliente)) {
+            return res
+                .status(400)
+                .json({
+                    error: 'Identificador do cliente inválido!'
+                });
+        }
+
         if (!(await validacao.isValid(req.body))) {
             return res
                 .status(400)
@@ -27,17 +35,38 @@ class ProdutosController {
             codigo_interno
         });
 
+        let cliente = mongoose.Types.ObjectId(req.body.cliente)
+        cliente = await Cliente.findById(cliente);
+
+        if (!cliente) {
+            return res
+                .status(400)
+                .json({
+                    error: 'Cliente não encontrado!'
+                });
+        }
+
         if (produto) {
             return res.status(401).json({
                 error: 'O produto já foi cadastrado!'
             });
         }
 
+        const produtos = new Produtos({
+            cliente: cliente,
+            preco: req.body.preco,
+            descricao: req.body.descricao,
+            codigo_interno: codigo_interno,
+        })
+
+        
+
         try {
-            const produtos = await Produtos.create(req.body);
+            const result = await produtos.save()
 
             return res.status(200).json({
-                sucess: 'O produto foi criado com sucesso!'
+                sucess: 'O produto foi criado com sucesso!',
+                result
             });
         } catch (error) {
             return res.status(500).json({
