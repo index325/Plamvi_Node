@@ -3,6 +3,11 @@ import mongoose from 'mongoose';
 // const mongooseSequence = require('mongoose-sequence')(mongoose);
 
 const ProdutosSchema = new mongoose.Schema({
+    cliente: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cliente',
+        required: true,
+    },
     preco: {
         type: Number,
         required: true,
