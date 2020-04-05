@@ -19,9 +19,4 @@ const TipoDeEntregaSchema = new mongoose.Schema({
     },
 });
 
-// UsuariosSchema.plugin(mongooseSequence, {
-//   id: 'idUsuario_seq',
-//   inc_field: 'idUsuario',
-// });
-
 export default mongoose.model('TipoDeEntrega', TipoDeEntregaSchema);
