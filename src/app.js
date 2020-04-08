@@ -1,7 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import requireDir from 'require-dir';
-import routes from './routes/routes';
+import client from './routes/client';
+import user from './routes/user';
+import index from './routes/index';
 // import routas_cliente from './routes/cliente';
 // import routas_usuario from './routes/usuario';
 
@@ -19,9 +21,9 @@ class App {
     }
 
     routes() {
-        this.server.use('/api/', routes);
-        this.server.use('/api/cliente', routes);
-        this.server.use('/api/usuario', routes);
+        this.server.use('/api/', index);
+        this.server.use('/api/cliente', client);
+        this.server.use('/api/usuario', user);
     }
 
     dbmodels() {
