@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Produtos from "../models/Produtos";
+import Cliente from "../models/Cliente";
 import * as Yup from "yup";
 
 class ProdutosController {
@@ -66,12 +67,34 @@ class ProdutosController {
       });
     }
   }
-  async meusProdutos(req, res) {
+  async listarProdutos(req, res) {
     try {
-      const result = await Produtos.find({ cliente: req.body.idCliente });
+
+      const result = await Produtos.find({ cliente: req.query.idCliente });
 
       return res.status(200).json({
-        sucess: "O produto foi criado com sucesso!",
+        result,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: "Erro na operação de cadastro",
+      });
+    }
+  }
+  async overviewProduto(req, res){
+    try {
+
+      let produto = mongoose.Types.ObjectId(req.body.produto);
+
+      const result = await Produtos.findById(produto);
+  
+      if (!produto) {
+        return res.status(400).json({
+          error: "Produto não encontrado!",
+        });
+      }
+
+      return res.status(200).json({
         result,
       });
     } catch (error) {
