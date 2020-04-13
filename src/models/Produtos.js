@@ -1,41 +1,48 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 // const mongooseSequence = require('mongoose-sequence')(mongoose);
 
-const ProdutosSchema = new mongoose.Schema({
+const ProdutosSchema = new mongoose.Schema(
+  {
     cliente: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cliente',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cliente",
+      required: true
+    },
+    nome: {
+      type: String,
+      required: true
     },
     preco: {
-        type: Number,
-        required: true,
-        default: 0.0
+      type: Number,
+      required: true,
+      default: 0.0
     },
     descricao: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     codigo_interno: {
-        type: String,
-        required: true,
-    },
-}, {
+      type: String,
+      required: true
+    }
+  },
+  {
     timestamps: {
-        createdAt: 'criadoEm',
-        updatedAt: 'atualizadoEm',
-    },
-});
+      createdAt: "criadoEm",
+      updatedAt: "atualizadoEm"
+    }
+  }
+);
 
 // Getter
-ProdutosSchema.path('preco').get(function (num) {
-    return (num / 100).toFixed(2);
+ProdutosSchema.path("preco").get(function(num) {
+  return (num / 100).toFixed(2);
 });
 
 // Setter
-ProdutosSchema.path('preco').set(function (num) {
-    return num * 100;
+ProdutosSchema.path("preco").set(function(num) {
+  return num * 100;
 });
 
-export default mongoose.model('Produtos', ProdutosSchema);
+export default mongoose.model("Produtos", ProdutosSchema);

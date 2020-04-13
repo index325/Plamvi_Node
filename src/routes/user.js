@@ -5,6 +5,8 @@ import UsuariosController from "../controllers/UsuariosController";
 import PedidosController from "../controllers/PedidosController";
 import ClienteController from "../controllers/ClienteController";
 import ProdutosController from "../controllers/ProdutosController";
+import CarrinhoController from "../controllers/CarrinhoController";
+import ItensCarrinhoController from "../controllers/ItensCarrinhoController";
 
 const routes = express.Router();
 
@@ -20,6 +22,10 @@ routes.get("/meus_pedidos", JwtMiddle, PedidosController.meusPedidos);
 routes.get("/clientes", JwtMiddle, ClienteController.listar);
 
 routes.get("/produtos", JwtMiddle, ProdutosController.listarProdutos);
+
+routes.get('/verificar_carrinho', JwtMiddle, CarrinhoController.verificarCarrinho)
+routes.post('/adicionar_ao_carrinho', JwtMiddle, ItensCarrinhoController.guardarItem)
+routes.get('/meus_itens_carrinho', JwtMiddle, ItensCarrinhoController.meusItens)
 
 routes.get("/", function(req, res, next) {
   res.status(200).send({
