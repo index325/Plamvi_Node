@@ -7,7 +7,7 @@ class CarrinhoController {
     let result = await Carrinho.findOne({
       usuario: req.body.idUsuario,
       aberto: true
-    });
+    }).populate('itensCarrinho');
     
     if (result) {
       return res.status(200).json({
@@ -37,7 +37,7 @@ class CarrinhoController {
     await Carrinho.find({
         usuario: req.body.idUsuario,
         _id: req.body.carrinho
-      }).then(function(result) {
+      }).populate('itensCarrinho').then(function(result) {
         if (result.length > 0) {
             result.aberto = false
           return res.status(200).json({

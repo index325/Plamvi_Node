@@ -10,12 +10,12 @@ class ItensCarrinhoController {
     const validacao = Yup.object().shape({
       quantidade: Yup.number()
         .moreThan(0)
-        .required()
+        .required(),
     });
 
     if (!(await validacao.isValid(req.body))) {
       return res.status(400).json({
-        error: "A validação está incorreta!"
+        error: "A validação está incorreta!",
       });
     }
 
@@ -27,29 +27,33 @@ class ItensCarrinhoController {
 
     const carrinho = await Carrinho.findOne({
       usuario: req.body.idUsuario,
-      aberto: true
-    });
+      aberto: true,
+    }).populate("itensCarrinho");
 
     const itemCarrinho = new ItensCarrinho({
       usuario: req.body.idUsuario,
       carrinho: carrinho,
       quantidade: req.body.quantidade,
-      produto: produto
+      produto: produto,
     });
 
     const produtoFind = await Produtos.findById(produto);
 
     try {
       const result = await itemCarrinho.save();
-      console.log(produtoFind);
+      const itemCarrinho1 = await ItensCarrinho.findById(result._id)
+      
+      await carrinho.itensCarrinho.push(itemCarrinho1);
+
+      await carrinho.save();
       return res.status(200).json({
         success: `${produtoFind.nome} adicionado ao carrinho com sucesso.`,
-        result
+        carrinho,
       });
     } catch (error) {
       console.log(error);
       return res.status(500).json({
-        error: "Erro na operação de cadastro"
+        error: "Erro na operação de cadastro",
       });
     }
   }
@@ -75,15 +79,16 @@ class ItensCarrinhoController {
   }
 
   async meusItens(req, res) {
-    const itens = await ItensCarrinho.find({
-      usuario: req.body.idUsuario
-    })
-      .populate("carrinho")
-      .find({ aberto: true })
-      .select("itensCarrinho");
+    console.log(req.body.idUsuario);
+    const result = await ItensCarrinho.find({
+      usuario: req.body.idUsuario,
+    }).populate({
+      path: "carrinho",
+      match: { aberto: true },
+    });
 
     return res.status(200).json({
-      itens
+      result,
     });
   }
 }

@@ -13,6 +13,10 @@ const CarrinhoSchema = new mongoose.Schema({
     ref: 'Usuarios',
     required: true,
   },
+  itensCarrinho: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ItensCarrinho',
+  }]
 }, {
   timestamps: {
     createdAt: 'criadoEm',
