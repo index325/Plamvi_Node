@@ -41,8 +41,8 @@ class ItensCarrinhoController {
 
     try {
       const result = await itemCarrinho.save();
-      const itemCarrinho1 = await ItensCarrinho.findById(result._id)
-      
+      const itemCarrinho1 = await ItensCarrinho.findById(result._id);
+
       await carrinho.itensCarrinho.push(itemCarrinho1);
 
       await carrinho.save();
@@ -59,33 +59,56 @@ class ItensCarrinhoController {
   }
 
   async excluirItem(req, res) {
-    // await Carrinho.find({
-    //   usuario: req.body.idUsuario,
-    //   aberto: true
-    // }).then(function(result) {
-    //   if (result.length > 0) {
-    //     return res.status(200).json({
-    //       result
-    //     });
-    //   }
-    //   carrinhoNew = new Carrinho({
-    //       usuario: req.body.idUsuario,
-    //   })
-    //   const result = await carrinhoNew.save()
-    //   return res.status(200).json({
-    //     success: "Carrinho criado com sucesso"
-    //   });
-    // });
+    try {
+      const { itemCarrinho, idUsuario } = req.body;
+
+      let indexItem, productName;
+
+      const carrinho = await Carrinho.findOne({
+        usuario: idUsuario,
+        aberto: true,
+      }).populate("itensCarrinho");
+
+      let itemCarrinhoDoc = await ItensCarrinho.findById(itemCarrinho).populate("produto")
+
+      if (carrinho.itensCarrinho.length < 1) {
+        return res.status(404).json({
+          error: "O carrinho está vazio",
+        });
+      } else if (!itemCarrinhoDoc) {
+        return res.status(404).json({
+          error: "Item não encontrado",
+        });
+      }
+
+      carrinho.itensCarrinho.map(async (item, index) => {
+        if (item._id == itemCarrinho) {
+          await ItensCarrinho.findByIdAndDelete(item._id);
+          indexItem = index;
+        }
+      });
+      if (indexItem) {
+        carrinho.itensCarrinho.splice(indexItem);
+        await carrinho.save();
+      }
+
+      return res.status(200).json({
+        success: `${itemCarrinhoDoc.produto.nome} excluído com sucesso do carrinho`, // TODO - Fazer aparecer exatamente o nome do item que foi excluído
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Erro na operação de exclusão",
+      });
+    }
   }
 
   async meusItens(req, res) {
     console.log(req.body.idUsuario);
-    const result = await ItensCarrinho.find({
+    const result = await Carrinho.find({
       usuario: req.body.idUsuario,
-    }).populate({
-      path: "carrinho",
-      match: { aberto: true },
-    });
+      aberto: true,
+    }).populate("itensCarrinho");
 
     return res.status(200).json({
       result,

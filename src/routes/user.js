@@ -25,6 +25,7 @@ routes.get("/produtos", JwtMiddle, ProdutosController.listarProdutos);
 
 routes.get('/verificar_carrinho', JwtMiddle, CarrinhoController.verificarCarrinho)
 routes.post('/adicionar_ao_carrinho', JwtMiddle, ItensCarrinhoController.guardarItem)
+routes.delete('/excluir_do_carrinho', JwtMiddle, ItensCarrinhoController.excluirItem)
 routes.get('/meus_itens_carrinho', JwtMiddle, ItensCarrinhoController.meusItens)
 
 routes.get("/", function(req, res, next) {
