@@ -93,7 +93,7 @@ class ItensCarrinhoController {
       }
 
       return res.status(200).json({
-        success: `${itemCarrinhoDoc.produto.nome} excluído com sucesso do carrinho`, // TODO - Fazer aparecer exatamente o nome do item que foi excluído
+        success: `${itemCarrinhoDoc.produto.nome} excluído com sucesso do carrinho`,
       });
     } catch (error) {
       console.log(error);
