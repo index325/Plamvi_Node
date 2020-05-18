@@ -24,7 +24,7 @@ routes.get("/clientes", JwtMiddle, CustomerController.listar);
 routes.get("/produtos", JwtMiddle, ProductController.listarProdutos);
 
 routes.get('/verificar_carrinho', JwtMiddle, CartController.verificarCarrinho)
-routes.post('/adicionar_ao_carrinho', JwtMiddle, CartItemController.guardarItem)
+routes.post('/adicionar_ao_carrinho', JwtMiddle, CartItemController.adicionarAoCarrinho)
 routes.delete('/excluir_do_carrinho', JwtMiddle, CartItemController.excluirItem)
 routes.get('/meus_itens_carrinho', JwtMiddle, CartItemController.meusItens)
 

@@ -4,7 +4,7 @@ import CartItem from "../models/CartItem";
 import * as Yup from "yup";
 
 class ItensCarrinhoController {
-  async guardarItem(req, res) {
+  async adicionarAoCarrinho(req, res) {
     const validacao = Yup.object().shape({
       quantity: Yup.number()
         .moreThan(0)
@@ -24,11 +24,22 @@ class ItensCarrinhoController {
       where: { user_id: user, opened: true },
     });
 
-    await CartItem.create({
-      product_id: product,
-      quantity,
-      cart_id: cart.id,
+    let alreadyExistsProductOnCart = await CartItem.findOne({
+      include: [{ association: "product", where: { id: product } }],
+      where: { cart_id: cart.id },
     });
+
+    if (alreadyExistsProductOnCart) {
+      await alreadyExistsProductOnCart.update({
+        quantity: alreadyExistsProductOnCart.quantity + quantity,
+      });
+    } else {
+      await CartItem.create({
+        product_id: product,
+        quantity,
+        cart_id: cart.id,
+      });
+    }
 
     cart = await Cart.findOne({
       include: [
