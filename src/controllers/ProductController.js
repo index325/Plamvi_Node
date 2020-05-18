@@ -64,8 +64,11 @@ class ProdutosController {
   }
   async listarProdutos(req, res) {
     try {
+
+      console.log(req.query);
+
       const result = await Product.findAll({
-        where: { customer_id: req.body.customer },
+        where: { customer_id: req.query.customer },
       });
 
       return res.status(200).json({

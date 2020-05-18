@@ -14,6 +14,7 @@ class CarrinhoController {
     }
 
     let cart = await Cart.findOne({
+      include: [{association: 'cart_itens', include: ['product']}],
       where: { user_id: user, opened: true },
     });
 
@@ -29,6 +30,7 @@ class CarrinhoController {
     });
 
     cart = await Cart.findOne({
+      include: [{association: 'cart_itens', include: ['product']}],
       where: { user_id: user, opened: true },
     });
 
