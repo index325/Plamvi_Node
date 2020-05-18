@@ -1,12 +1,11 @@
-import mongoose from "mongoose";
-import TipoDeEntrega from "../models/TipoDeEntrega";
-import Cliente from "../models/Cliente";
+import Customer from "../models/Customer"
+import DeliveryType from "../models/DeliveryType"
 import * as Yup from "yup";
 
 class TipoDeEntregaController {
   async guardar(req, res) {
     const validacao = Yup.object().shape({
-      descricao: Yup.string()
+      description: Yup.string()
         .required()
         .min(5),
     });
@@ -17,28 +16,19 @@ class TipoDeEntregaController {
       });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(req.body.cliente)) {
-      return res.status(400).json({
-        error: "Identificador do cliente inválido!",
-      });
-    }
+    const customer = await Customer.findByPk(req.body.customer);
 
-    let cliente = mongoose.Types.ObjectId(req.body.cliente);
-    cliente = await Cliente.findById(cliente);
-
-    if (!cliente) {
+    if (!customer) {
       return res.status(400).json({
         error: "Cliente não encontrado!",
       });
     }
 
-    const tipoDeEntrega = new TipoDeEntrega({
-      cliente: cliente,
-      descricao: req.body.descricao,
-    });
-
     try {
-      const result = await tipoDeEntrega.save();
+      const result = await DeliveryType.create({
+        customer_id: req.body.customer,
+        description: req.body.description,
+      });
 
       return res.status(200).json({
         sucess: "O tipo de entrega foi criado com sucesso!",
@@ -52,10 +42,10 @@ class TipoDeEntregaController {
   }
   async listar(req, res) {
     try {
-      const tipoDeEntrega = await TipoDeEntrega.find({});
+      const tipoDeEntrega = await DeliveryType.findAll();
 
       return res.status(200).json({
-        data: tipoDeEntrega,
+        result: tipoDeEntrega,
       });
     } catch (error) {
       return res.status(500).json({

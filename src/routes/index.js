@@ -1,5 +1,5 @@
-import ClienteController from "../controllers/ClienteController";
-import UsuariosController from "../controllers/UsuariosController";
+import CustomerController from "../controllers/CustomerController";
+import UserController from "../controllers/UserController";
 
 const express = require("express");
 const router = express.Router();
@@ -11,7 +11,7 @@ router.get("/", function(req, res, next) {
   });
 });
 
-router.post("/cliente", ClienteController.guardar);
-router.post("/usuario", UsuariosController.guardar);
+router.post("/cliente", CustomerController.guardar);
+router.post("/usuario", UserController.guardar);
 
 module.exports = router;

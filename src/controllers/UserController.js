@@ -1,4 +1,4 @@
-import Usuarios from "../models/Usuarios";
+import User from "../models/User";
 import bcrypt from "bcryptjs";
 import * as Yup from "yup";
 
@@ -8,7 +8,7 @@ class UsuariosController {
       email: Yup.string()
         .email()
         .required(),
-      senha: Yup.string()
+      password: Yup.string()
         .required()
         .min(4),
     });
@@ -20,8 +20,8 @@ class UsuariosController {
     }
     let email = req.body.email;
 
-    const usuario = await Usuarios.findOne({
-      email,
+    let usuario = await User.findOne({
+      where: { email },
     });
 
     if (usuario) {
@@ -30,16 +30,21 @@ class UsuariosController {
       });
     }
 
-    let senhaCriptografada = await bcrypt.hash(req.body.senha, 8);
-    req.body.senha = senhaCriptografada;
+    let senhaCriptografada = await bcrypt.hash(req.body.password, 8);
+    req.body.password = senhaCriptografada.toString();
 
     try {
-      const usuarios = await Usuarios.create(req.body);
+      await User.create(req.body);
+
+      usuario = await User.findOne({
+        where: { email },
+      });
 
       return res.status(200).json({
         sucess: "O usuário foi criado com sucesso!",
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         error: "Erro na operação de cadastro",
       });
@@ -47,7 +52,7 @@ class UsuariosController {
   }
   async listar(req, res) {
     try {
-      const usuarios = await Usuarios.find({});
+      const usuarios = await User.findAll();
 
       return res.status(200).json({
         data: usuarios,

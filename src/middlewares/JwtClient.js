@@ -33,11 +33,17 @@ export default async (req, res, next) => {
       token,
       credenciais.chave
     );
-    req.body.idCliente = tokenInformacao.idCliente;
+    req.body.customer = tokenInformacao.customer;
+
+    if (!req.body.customer) {
+      return res.status(401).json({
+        error: "Token incorreto!",
+      });
+    }
 
     return next();
   } catch (error) {
-    return res.json({
+    return res.status(401).json({
       error: "Token incorreto!",
     });
   }

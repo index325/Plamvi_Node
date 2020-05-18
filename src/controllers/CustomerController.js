@@ -1,4 +1,4 @@
-import Cliente from "../models/Cliente";
+import Customer from "../models/Customer";
 import bcrypt from "bcryptjs";
 import * as Yup from "yup";
 
@@ -8,7 +8,7 @@ class ClienteController {
       email: Yup.string()
         .email()
         .required(),
-      senha: Yup.string()
+      password: Yup.string()
         .required()
         .min(4),
     });
@@ -20,21 +20,21 @@ class ClienteController {
     }
     let email = req.body.email;
 
-    const cliente = await Cliente.findOne({
-      email,
+    const customer = await Customer.findOne({
+      where: { email },
     });
 
-    if (cliente) {
+    if (customer) {
       return res.status(401).json({
         error: "O email já foi cadastrado!",
       });
     }
 
-    let senhaCriptografada = await bcrypt.hash(req.body.senha, 8);
-    req.body.senha = senhaCriptografada;
+    let senhaCriptografada = await bcrypt.hash(req.body.password, 8);
+    req.body.password = senhaCriptografada;
 
     try {
-      const cliente = await Cliente.create(req.body);
+      const customer = await Customer.create(req.body);
 
       return res.status(200).json({
         sucess: "O cliente foi criado com sucesso!",
@@ -47,12 +47,12 @@ class ClienteController {
     }
   }
 
-  async listar(req, res){
+  async listar(req, res) {
     try {
-      const clientes = await Cliente.find({});
+      const result = await Customer.findAll();
 
       return res.status(200).json({
-        data: clientes,
+        result,
       });
     } catch (error) {
       return res.status(500).json({

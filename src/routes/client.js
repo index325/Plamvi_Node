@@ -2,24 +2,24 @@ import express from "express";
 import JwtMiddle from "../middlewares/JwtClient";
 
 import LoginController from "../controllers/LoginController";
-import UsuariosController from "../controllers/UsuariosController";
-import TipoDeEntregaController from "../controllers/TipoDeEntregaController";
-import ProdutosController from "../controllers/ProdutosController";
+import UserController from "../controllers/UserController";
+import DeliveryTypeController from "../controllers/DeliveryTypeController";
+import ProductController from "../controllers/ProductController";
 
 const routes = express.Router();
 
-routes.get("/usuarios", JwtMiddle, UsuariosController.listar);
+routes.get("/usuarios", JwtMiddle, UserController.listar);
 
 routes.post("/login", LoginController.loginCliente);
 routes.put("/login", JwtMiddle, LoginController.atualizar);
 
-routes.post("/tipo_entrega", JwtMiddle, TipoDeEntregaController.guardar);
-routes.get("/tipo_entrega", JwtMiddle, TipoDeEntregaController.listar);
+routes.post("/tipo_entrega", JwtMiddle, DeliveryTypeController.guardar);
+routes.get("/tipo_entrega", JwtMiddle, DeliveryTypeController.listar);
 
-routes.post('/produto', JwtMiddle, ProdutosController.guardar)
-routes.get('/meus_produtos', JwtMiddle, ProdutosController.listarProdutos)
+routes.post('/produto', JwtMiddle, ProductController.guardar)
+routes.get('/meus_produtos', JwtMiddle, ProductController.listarProdutos)
 
-routes.get('/produto', JwtMiddle, ProdutosController.overviewProduto)
+routes.get('/produto', JwtMiddle, ProductController.overviewProduto)
 
 routes.get("/", function(req, res, next) {
   res.status(200).send({

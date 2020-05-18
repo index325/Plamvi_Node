@@ -1,19 +1,18 @@
-import Usuarios from "../models/Usuarios";
-import Cliente from "../models/Cliente";
+import User from "../models/User";
+import Customer from "../models/Customer";
 import bcrypt from "bcryptjs";
 import credenciais from "../auth/credentials";
 import jwt from "jsonwebtoken";
 import * as Yup from "yup";
 
 // Tela de autenticação
-
 class LoginController {
   async loginUser(req, res) {
     const validacao = Yup.object().shape({
       email: Yup.string()
         .email()
         .required(),
-      senha: Yup.string()
+      password: Yup.string()
         .required()
         .min(4),
     });
@@ -22,8 +21,10 @@ class LoginController {
       return res.status(400).json({ error: "A validação está incorreta!" });
     }
 
-    const { email, senha } = req.body;
-    const usuario = await Usuarios.findOne({ email });
+    const { email, password } = req.body;
+    const usuario = await User.findOne({
+      where: { email },
+    });
 
     if (!usuario) {
       return res.status(401).json({ error: "O usuário não foi encontrado!" });
@@ -35,16 +36,19 @@ class LoginController {
     }
 
     // Compara as senhas
-    if (!(await bcrypt.compare(senha, usuario.senha))) {
+    if (!(await bcrypt.compare(password, usuario.password))) {
       return res.status(401).json({ error: "A senha é incorreta!" });
     }
 
-    const idUsuario = usuario._id;
+    const idUsuario = usuario.id;
+
+    let user = await User.findByPk(idUsuario);
 
     return res.json({
-      token: jwt.sign({ idUsuario }, credenciais.chave, {
+      token: jwt.sign({ user: idUsuario }, credenciais.chave, {
         expiresIn: credenciais.dataExpiracao,
       }),
+      user,
     });
   }
 
@@ -53,7 +57,7 @@ class LoginController {
       email: Yup.string()
         .email()
         .required(),
-      senha: Yup.string()
+      password: Yup.string()
         .required()
         .min(4),
     });
@@ -62,8 +66,10 @@ class LoginController {
       return res.status(400).json({ error: "A validação está incorreta!" });
     }
 
-    const { email, senha } = req.body;
-    const cliente = await Cliente.findOne({ email });
+    const { email, password } = req.body;
+    const cliente = await Customer.findOne({
+      where: { email },
+    });
 
     if (!cliente) {
       return res.status(401).json({ error: "O usuário não foi encontrado!" });
@@ -75,63 +81,24 @@ class LoginController {
     }
 
     // Compara as senhas
-    if (!(await bcrypt.compare(senha, cliente.senha))) {
+    if (!(await bcrypt.compare(password, cliente.password))) {
       return res.status(401).json({ error: "A senha é incorreta!" });
     }
 
-    const idCliente = cliente._id;
+    const idCliente = cliente.id;
+
+    let customer = await Customer.findByPk(idCliente);
 
     return res.json({
       token: jwt.sign({ idCliente }, credenciais.chave, {
         expiresIn: credenciais.dataExpiracao,
       }),
+      customer,
     });
   }
 
   async atualizar(req, res) {
-    const validacao = Yup.object().shape({
-      idUsuario: Yup.number().required(),
-      senhaNova: Yup.string()
-        .required()
-        .min(4),
-      senhaAntiga: Yup.string()
-        .required()
-        .min(4),
-    });
-
-    if (!(await validacao.isValid(req.body))) {
-      return res.status(400).json({ error: "A validação está incorreta!" });
-    }
-
-    const idUsuario = req.body.idUsuario;
-    const senhaNova = await bcrypt.hash(req.body.senhaNova, 8);
-    const senhaAntiga = req.body.senhaAntiga;
-
-    try {
-      try {
-        const consulta = await Usuarios.findOne({ idUsuario });
-
-        // Compara as senhas
-        if (!(await bcrypt.compare(senhaAntiga, consulta.senha))) {
-          return res.status(401).json({ error: "A senha é incorreta!" });
-        }
-      } catch (error) {
-        return res.status(500).json({
-          error: "Erro ao validar no banco de dados a informação!",
-        });
-      }
-
-      const atualizacao = await Usuarios.updateOne(
-        { idUsuario },
-        { senha: senhaNova }
-      );
-
-      return res
-        .status(200)
-        .json({ sucess: "O usuário foi atualizado com sucesso!" });
-    } catch (error) {
-      return res.status(500).json({ error: "Erro na operação de atualização" });
-    }
+    // TODO
   }
 }
 
