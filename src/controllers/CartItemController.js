@@ -11,8 +11,14 @@ class ItensCarrinhoController {
         .required(),
     });
 
+    if (req.body.quantity === 0 || req.body.quantity === '0'){
+      return res.status(401).json({
+        error: "A quantidade não pode ser 0.",
+      });
+    }
+
     if (!(await validacao.isValid(req.body))) {
-      return res.status(400).json({
+      return res.status(401).json({
         error: "A validação está incorreta!",
       });
     }

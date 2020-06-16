@@ -23,6 +23,7 @@ class Product extends Model {
     //   foreignKey: "customer_id",
     //   as: "customer",
     // });
+    this.belongsToMany(models.Product, { foreignKey: 'product_id', through: 'order_products', as: 'products' });
   }
 }
 

@@ -63,6 +63,49 @@ class UsuariosController {
       });
     }
   }
+
+  async getUserProfile(req, res) {
+    try {
+      const { user } = req.body;
+      const result = await User.findByPk(user);
+
+      return res.status(200).json({
+        data: result,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: "Erro na operação de listagem",
+      });
+    }
+  }
+
+  async atualizar(req, res) {
+    const { name, email, password, city, state, id } = req.body;
+
+    const usuario = await User.findByPk(id);
+
+    if (!usuario){
+      return res.status(400).json({
+        error: "Usuario não encontrado"
+      })
+    }
+
+    if (!(await bcrypt.compare(password, usuario.password))) {
+      return res.status(401).json({ error: "A senha é incorreta!" });
+    }
+
+    await usuario.update({
+      name: name,
+      email: email,
+      city: city,
+      state: state,
+    })
+
+    return res.status(200).json({
+      data: usuario,
+    });
+
+  }
 }
 
 export default new UsuariosController();

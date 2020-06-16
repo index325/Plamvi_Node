@@ -35,7 +35,7 @@ class App {
     mongoose.connect("mongodb://localhost:27017/Catalapp", {
       useNewUrlParser: true,
       useCreateIndex: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
 
     requireDir("./models");
@@ -48,7 +48,7 @@ class App {
 
     const s3 = new S3({
       accessKeyId: id,
-      secretAccessKey: secret
+      secretAccessKey: secret,
     });
 
     // var keyName = "hello_world.txt";

@@ -81,6 +81,22 @@ class ProdutosController {
       });
     }
   }
+  async clienteListarProdutos(req, res) {
+    try {
+      const result = await Product.findAll({
+        where: { customer_id: req.body.customer },
+      });
+
+      return res.status(200).json({
+        result,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Erro na operação de cadastro",
+      });
+    }
+  }
   async overviewProduto(req, res) {
     try {
       const { product } = req.body;

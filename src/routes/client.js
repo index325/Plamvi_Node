@@ -16,10 +16,10 @@ routes.put("/login", JwtMiddle, LoginController.atualizar);
 routes.post("/tipo_entrega", JwtMiddle, DeliveryTypeController.guardar);
 routes.get("/tipo_entrega", JwtMiddle, DeliveryTypeController.listar);
 
-routes.post('/produto', JwtMiddle, ProductController.guardar)
-routes.get('/meus_produtos', JwtMiddle, ProductController.listarProdutos)
+routes.post("/produto", JwtMiddle, ProductController.guardar);
+routes.get("/meus_produtos", JwtMiddle, ProductController.clienteListarProdutos);
 
-routes.get('/produto', JwtMiddle, ProductController.overviewProduto)
+routes.get("/produto", JwtMiddle, ProductController.overviewProduto);
 
 routes.get("/", function(req, res, next) {
   res.status(200).send({

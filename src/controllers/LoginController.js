@@ -90,7 +90,7 @@ class LoginController {
     let customer = await Customer.findByPk(idCliente);
 
     return res.json({
-      token: jwt.sign({ idCliente }, credenciais.chave, {
+      token: jwt.sign({ customer: idCliente }, credenciais.chave, {
         expiresIn: credenciais.dataExpiracao,
       }),
       customer,

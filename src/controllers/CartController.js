@@ -14,14 +14,27 @@ class CarrinhoController {
     }
 
     let cart = await Cart.findOne({
-      include: [{association: 'cart_itens', include: ['product']}],
+      include: [{ association: "cart_itens", include: ["product"] }],
       where: { user_id: user, opened: true },
     });
 
     if (cart) {
       return res.status(200).json({
         result: cart,
+        order_pending: false,
       });
+    } else {
+      let cart = await Cart.findOne({
+        include: [{ association: "cart_itens", include: ["product"] }],
+        where: { user_id: user, opened: false },
+      });
+      if (cart) {
+        return res.status(200).json({
+          message: "Você tem um pedido em aberto. Finalize a sua compra",
+          result: cart,
+          order_pending: true,
+        });
+      }
     }
 
     await Cart.create({
@@ -30,13 +43,14 @@ class CarrinhoController {
     });
 
     cart = await Cart.findOne({
-      include: [{association: 'cart_itens', include: ['product']}],
+      include: [{ association: "cart_itens", include: ["product"] }],
       where: { user_id: user, opened: true },
     });
 
     return res.status(200).json({
       success: "Carrinho criado com sucesso",
       result: cart,
+      order_pending: false,
     });
   }
 

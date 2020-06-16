@@ -1,5 +1,6 @@
 import app from "./src/app";
 import bodyParser from "body-parser";
+import cors from "cors";
 const port = normalizaPort(process.env.PORT || "3001");
 const expressSwagger = require("express-swagger-generator")(app);
 
@@ -44,6 +45,8 @@ app.use(
     extended: true,
   })
 );
+
+app.use(cors());
 
 // parse application/json
 // app.use(bodyParser.json())

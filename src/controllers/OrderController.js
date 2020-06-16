@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-class PedidosController {
+class OrderController {
   async guardar(req, res) {
     // const validacao = Yup.object().shape({
     //   total: Yup.number()
@@ -80,4 +80,4 @@ class PedidosController {
     // }
   }
 }
-export default new PedidosController();
+export default new OrderController();
