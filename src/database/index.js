@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
-const dbConfig = require("../config/database");
+import Sequelize from "sequelize"
+import dbConfig from '../config/database'
 
 const User = require("../models/User");
 const Cart = require("../models/Cart");

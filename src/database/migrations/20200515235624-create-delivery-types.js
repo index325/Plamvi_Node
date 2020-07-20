@@ -1,18 +1,18 @@
 module.exports = {
-  up: (queryInterface, DataTypes) => {
+  up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("delivery_types", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.fn('uuid_generate_v4'),
       },
       description: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       customer_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: { model: "customers", key: "id" },
         onUpdate: "CASCADE",
@@ -20,11 +20,11 @@ module.exports = {
       },
       created_at: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
       },
       updated_at: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
       },
     });
   },

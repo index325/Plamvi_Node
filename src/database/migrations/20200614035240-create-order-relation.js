@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn("transactions", "order_id", {
-      type: Sequelize.INTEGER,
+      type: Sequelize.UUID,
       allowNull: false,
       references: { model: "orders", key: "id" },
       onUpdate: "CASCADE",

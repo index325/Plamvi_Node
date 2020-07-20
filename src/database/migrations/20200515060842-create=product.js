@@ -1,31 +1,31 @@
 module.exports = {
-  up: (queryInterface, DataTypes) => {
+  up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('products', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.fn('uuid_generate_v4'),
       },
       name: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       sku: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         unique: true,
       },
       price: {
         allowNull: false,
-        type: DataTypes.FLOAT,
+        type: Sequelize.FLOAT,
       },
       description: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       customer_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: { model: 'customers', key: 'id' },
         onUpdate: 'CASCADE',
@@ -33,11 +33,11 @@ module.exports = {
       },
       created_at: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
       },
       updated_at: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
       },
     });
   },
