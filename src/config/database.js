@@ -27,9 +27,10 @@
 
 module.exports = {
   username: "postgres",
-  password: "123456",
-  database: "catalapp",
+  password: "docker",
+  database: "plamvi",
   host: "localhost",
+  port: 5432,
   dialect: "postgres",
   define: {
     timestamps: true,
