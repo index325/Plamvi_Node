@@ -11,9 +11,9 @@ class CartsRepository implements ICartsRepository {
   constructor() {
     this.ormRepository = getRepository(Cart);
   }
-  public async findOpenedCartByUser(user: User): Promise<Cart | undefined> {
+  public async findOpenedCartByUser(user_id: string): Promise<Cart | undefined> {
     const cart = this.ormRepository.findOne({
-      where: { user, opened: true },
+      where: { user_id, opened: true },
     });
 
     return cart;
