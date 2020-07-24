@@ -4,11 +4,7 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    ManyToOne,
-    JoinColumn,
   } from "typeorm";
-  
-  import User from "@modules/Users/infra/typeorm/entities/User";
   
   @Entity("orders")
   class Order {
@@ -23,10 +19,6 @@ import {
 
     @Column()
     daysToDeliver: number;
-  
-    @ManyToOne(() => User)
-    @JoinColumn({ name: "user_id" })
-    product: User;
   
     @CreateDateColumn()
     created_at: Date;

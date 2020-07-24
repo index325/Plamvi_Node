@@ -3,8 +3,6 @@ import AppError from "@shared/errors/AppError";
 import ICartRepository from "../repositories/ICartsRepository";
 import ICartItemRepository from "../repositories/ICartItemsRepository";
 import { injectable, inject } from "tsyringe";
-import User from "@modules/Users/infra/typeorm/entities/User";
-import CartItem from "../infra/typeorm/entities/CartItem";
 
 interface IRequest {
   user_id: string;

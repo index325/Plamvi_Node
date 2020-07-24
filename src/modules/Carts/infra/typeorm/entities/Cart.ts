@@ -1,36 +1,44 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToOne,
-    JoinColumn,
-  } from "typeorm";
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+} from "typeorm";
 
-  import User from "@modules/Users/infra/typeorm/entities/User"
-  
-  @Entity("carts")
-  class Cart {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
-  
-    @Column()
-    opened: boolean;
+import User from "@modules/Users/infra/typeorm/entities/User";
+import CartItem from "./CartItem";
 
-    @Column()
-    user_id: string;
+@Entity("carts")
+class Cart {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @OneToOne(() => User)
-    @JoinColumn({ name: "user_id" })
-    user: User;
-  
-    @CreateDateColumn()
-    created_at: Date;
-  
-    @UpdateDateColumn()
-    updated_at: Date;
-  }
-  
-  export default Cart;
-  
+  @Column()
+  opened: boolean;
+
+  @Column()
+  user_id: string;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: "user_id" })
+  user: User;
+
+  @Column()
+  cart_item_id: string;
+
+  @ManyToOne(() => CartItem)
+  @JoinColumn({ name: "cart_item_id" })
+  cart_item: CartItem[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+}
+
+export default Cart;
