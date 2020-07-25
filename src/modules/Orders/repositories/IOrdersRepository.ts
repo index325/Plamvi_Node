@@ -4,5 +4,5 @@ import IUpdateOrderDTO from "@modules/Orders/dtos/IUpdateFeeDTO";
 
 export default interface IOrdersRepository {
   create(data: ICreateOrderDTO): Promise<Order>;
-  updateFee(data: IUpdateOrderDTO): Promise<Order>;
+  updateFee(data: IUpdateOrderDTO): Promise<Order | undefined>;
 }

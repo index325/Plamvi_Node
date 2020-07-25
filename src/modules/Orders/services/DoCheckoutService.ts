@@ -10,12 +10,10 @@ import { injectable, inject } from "tsyringe";
 
 interface IRequest {
   user_id: string;
-  quantity: number;
-  product_id: string;
 }
 
 @injectable()
-export default class VerifyCartService {
+export default class DoCheckoutService {
   constructor(
     @inject("CartsRepository")
     private cartsRepository: ICartRepository,
