@@ -1,7 +1,8 @@
 import { container } from "tsyringe";
 
-// import "@modules/Users/providers";
-// import "./providers";
+import "@modules/Users/providers";
+import "@modules/Customers/providers";
+import "./providers";
 
 import ICartItemsRepository from "@modules/Carts/repositories/ICartItemsRepository";
 import CartItemsRepository from "@modules/Carts/infra/typeorm/repositories/CartItemsRepository";
