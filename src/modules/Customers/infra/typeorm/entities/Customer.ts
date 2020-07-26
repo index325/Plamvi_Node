@@ -25,6 +25,12 @@ import {
 
     @Column()
     paid: boolean;
+
+    @Column()
+    city: string;
+
+    @Column()
+    state: string;
   
     @CreateDateColumn()
     created_at: Date;
