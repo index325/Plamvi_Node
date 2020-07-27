@@ -34,14 +34,16 @@ class ProductsRepository implements IProductsRepository {
       where: { customer_id },
     });
   }
-  public async findProductById(product_id: string): Promise<Product | undefined> {
+  public async findProductById(
+    product_id: string
+  ): Promise<Product | undefined> {
     return this.ormRepository.findOne(product_id);
   }
 
   public async verifyIfSKUAlreadyExists(sku: string): Promise<boolean> {
     return !!this.ormRepository.find({
-      where: sku
-    })
+      where: sku,
+    });
   }
 }
 

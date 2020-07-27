@@ -25,7 +25,7 @@ import {
     sku: string;
 
     @Column()
-    shortDescription: string;
+    short_description: string;
 
     @Column()
     description: string;
