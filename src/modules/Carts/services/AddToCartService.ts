@@ -24,36 +24,32 @@ export default class VerifyCartService {
     quantity,
     product_id,
   }: IRequest): Promise<Cart | undefined> {
-    try {
-      if (quantity === undefined || quantity <= 0) {
-        throw new AppError("A quantidade não pode ser zero.", 400);
-      }
-      const cart = await this.cartsRepository.findOpenedCartByUser(user_id);
-
-      if (!cart) {
-        throw new AppError("O usuário não tem carrinho.", 400);
-      }
-
-      let alreadyExistsProductOnCart = await this.cartItemsRepository.verifyIfProductAlreadyExistsOnCartItems(
-        { product_id, cart_id: cart.id }
-      );
-
-      if (alreadyExistsProductOnCart) {
-        this.cartItemsRepository.incrementProductQuantity({
-          quantity,
-          cart_item_id: alreadyExistsProductOnCart.id,
-        });
-      } else {
-        this.cartItemsRepository.create({
-          quantity,
-          cart_id: cart.id,
-          product_id,
-        });
-      }
-
-      return await this.cartsRepository.findOpenedCartByUser(user_id);
-    } catch (error) {
-      throw new AppError("Um erro ocorreu ao adicionar ao carrinho", 400);
+    if (quantity === undefined || quantity <= 0) {
+      throw new AppError("A quantidade não pode ser zero.", 400);
     }
+    const cart = await this.cartsRepository.findOpenedCartByUser(user_id);
+
+    if (!cart) {
+      throw new AppError("O usuário não tem carrinho.", 400);
+    }
+
+    let alreadyExistsProductOnCart = await this.cartItemsRepository.verifyIfProductAlreadyExistsOnCartItems(
+      { product_id, cart_id: cart.id }
+    );
+
+    if (alreadyExistsProductOnCart) {
+      this.cartItemsRepository.incrementProductQuantity({
+        quantity,
+        cart_item_id: alreadyExistsProductOnCart.id,
+      });
+    } else {
+      this.cartItemsRepository.create({
+        quantity,
+        cart_id: cart.id,
+        product_id,
+      });
+    }
+
+    return await this.cartsRepository.findOpenedCartByUser(user_id);
   }
 }

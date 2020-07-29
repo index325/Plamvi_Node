@@ -14,10 +14,6 @@ export default class DeleteCartItemService {
   ) {}
 
   public async execute({ cart_item_id }: IRequest): Promise<void> {
-    try {
-      await this.cartItemsRepository.delete({ cart_item_id });
-    } catch (error) {
-      throw new AppError("Um erro ocorreu ao deletar do carrinho", 400);
-    }
+    await this.cartItemsRepository.delete({ cart_item_id });
   }
 }

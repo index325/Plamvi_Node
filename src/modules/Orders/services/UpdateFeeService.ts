@@ -22,16 +22,12 @@ export default class DoCheckoutService {
   ) {}
 
   public async execute(data: IRequest): Promise<Order | undefined> {
-    try {
-      const order = await this.ordersRepository.updateFee({
-        order_id: data.order_id,
-        fee: data.fee,
-        daysToDeliver: data.daysToDeliver,
-      });
+    const order = await this.ordersRepository.updateFee({
+      order_id: data.order_id,
+      fee: data.fee,
+      daysToDeliver: data.daysToDeliver,
+    });
 
-      return order;
-    } catch (error) {
-      throw new AppError("Um erro ocorreu ao fazer o checkout", 400);
-    }
+    return order;
   }
 }

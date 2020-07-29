@@ -19,6 +19,9 @@ import OrderProductRepository from "@modules/Orders/infra/typeorm/repositories/O
 import IUsersRepository from "@modules/Users/repositories/IUsersRepository";
 import UsersRepository from "@modules/Users/infra/typeorm/repositories/UsersRepository";
 
+import IProductsRepository from "@modules/Products/repositories/IProductsRepository";
+import ProductsRepository from "@modules/Products/infra/typeorm/repositories/ProductsRepository";
+
 container.registerSingleton<ICartItemsRepository>(
   "CartItemsRepository",
   CartItemsRepository
@@ -39,4 +42,9 @@ container.registerSingleton<IOrderProductRepository>(
 container.registerSingleton<IUsersRepository>(
   "UsersRepository",
   UsersRepository
+);
+
+container.registerSingleton<IProductsRepository>(
+  "ProductsRepository",
+  ProductsRepository
 );
