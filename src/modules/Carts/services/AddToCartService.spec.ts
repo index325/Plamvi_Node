@@ -1,5 +1,5 @@
 import FakeCartsRepository from '../repositories/fake/FakeCartsRepository';
-import FakeCartItemsRespository from '../repositories/fake/FakeCartItemsRespository';
+import FakeCartItemsRespository from '../repositories/fake/FakeCartItemsRepository';
 
 import AddToCartService from './AddToCartService';
 
