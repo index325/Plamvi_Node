@@ -16,6 +16,9 @@ import {
     id: string;
 
     @Column()
+    name: string;
+
+    @Column()
     image_url: string;
 
     @Column()
