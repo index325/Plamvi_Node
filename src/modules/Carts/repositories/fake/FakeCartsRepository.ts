@@ -30,6 +30,7 @@ class FakeCartsRepository implements ICartsRepository {
 
     cart.user_id = user_id;
     cart.opened = opened;
+    cart.cart_item = [];
 
     this.carts.push(cart);
 

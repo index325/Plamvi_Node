@@ -15,7 +15,7 @@ interface IRequest {
 }
 
 @injectable()
-export default class DoCheckoutService {
+export default class UpdateFeeService {
   constructor(
     @inject("OrdersRepository")
     private ordersRepository: IOrderRepository

@@ -4,7 +4,7 @@ import FakeCartsRepository from '../repositories/fake/FakeCartsRepository';
 import DeleteCartItemService from './DeleteCartItemService';
 
 describe('DeleteCartItems', () => {
-  it('', async () => {
+  it('should be able to delete a card item', async () => {
     const fakeCartItemsRepository = new FakeCartItemsRepository();
     const fakeCartsRepository = new FakeCartsRepository();
     const deleteCartItem = new DeleteCartItemService(fakeCartItemsRepository);
