@@ -3,7 +3,7 @@ export default interface ICreateCustomerDTO {
   name: string;
   password: string;
   email: string;
-  paid?: boolean;
+  paid: boolean;
   city: string;
   state: string;
 }

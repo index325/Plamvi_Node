@@ -45,6 +45,7 @@ export default class CreateUserService {
       city,
       state,
       avatar,
+      paid: false,
     });
 
     return customer;
