@@ -33,14 +33,14 @@ export default class AddToCartService {
       throw new AppError("O usuário não tem carrinho.", 400);
     }
 
-    let alreadyExistsProductOnCart = await this.cartItemsRepository.verifyIfProductAlreadyExistsOnCartItems(
+    let productAlreadyExistsOnCart = await this.cartItemsRepository.verifyIfProductAlreadyExistsOnCartItems(
       { product_id, cart_id: cart.id }
     );
 
-    if (alreadyExistsProductOnCart) {
+    if (productAlreadyExistsOnCart) {
       this.cartItemsRepository.incrementProductQuantity({
         quantity,
-        cart_item_id: alreadyExistsProductOnCart.id,
+        cart_item_id: productAlreadyExistsOnCart.id,
       });
     } else {
       this.cartItemsRepository.create({

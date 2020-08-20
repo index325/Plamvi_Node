@@ -14,10 +14,8 @@ class CartItemsRepository implements ICartItemsRepository {
     this.ormRepository = getRepository(CartItem);
   }
 
-  public async get(user_id: string): Promise<CartItem[]> {
-    return await this.ormRepository.find({
-      where: { user_id },
-    });
+  public async findById(cart_item_id: string): Promise<CartItem | undefined> {
+    return await this.ormRepository.findOne(cart_item_id);
   }
   public async create(data: ICreateCartItemsDTO): Promise<CartItem> {
     const cart = this.ormRepository.create(data);

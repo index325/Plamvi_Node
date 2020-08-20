@@ -2,13 +2,15 @@ import ICartsRepository from "@modules/Carts/repositories/ICartsRepository";
 import Cart from "../../infra/typeorm/entities/Cart";
 import ICreateCartDTO from "@modules/Carts/dtos/ICreateCartDTO";
 
-class CartsRepository implements ICartsRepository {
+class FakeCartsRepository implements ICartsRepository {
   private carts: Cart[] = [];
 
   public async findOpenedCartByUser(
     user_id: string
   ): Promise<Cart | undefined> {
-    const cart = await this.carts.find(item => item.user_id === user_id);
+    const cart = await this.carts.find(item => {
+      return item.user_id === user_id && item.opened;
+    });
 
     return cart;
   }
@@ -38,4 +40,4 @@ class CartsRepository implements ICartsRepository {
   }
 }
 
-export default CartsRepository;
+export default FakeCartsRepository;

@@ -7,7 +7,7 @@ import IIncrementProductQuantityDTO from "@modules/Carts/dtos/IIncrementProductQ
 export default interface ICartsRepository {
   create(data: ICreateCartItemsDTO): Promise<CartItem>;
   delete({ cart_item_id }: IDeleteCartItemsDTO): Promise<void>;
-  get(user_id: string): Promise<CartItem[]>;
+  findById(cart_item_id: string): Promise<CartItem | undefined>;
   verifyIfProductAlreadyExistsOnCartItems({
     product_id,
     cart_id,
