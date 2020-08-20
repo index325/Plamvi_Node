@@ -16,8 +16,8 @@ import OrderRepository from "@modules/Orders/infra/typeorm/repositories/OrderRep
 import IOrderProductRepository from "@modules/Orders/repositories/IOrderProductsRepository";
 import OrderProductRepository from "@modules/Orders/infra/typeorm/repositories/OrderProductRepository";
 
-import IUsersRepository from "@modules/Users/repositories/IUsersRepository";
-import UsersRepository from "@modules/Users/infra/typeorm/repositories/UsersRepository";
+// import IUsersRepository from "@modules/Users/repositories/IUsersRepository";
+// import UsersRepository from "@modules/Users/infra/typeorm/repositories/UsersRepository";
 
 import IProductsRepository from "@modules/Products/repositories/IProductsRepository";
 import ProductsRepository from "@modules/Products/infra/typeorm/repositories/ProductsRepository";
@@ -39,10 +39,10 @@ container.registerSingleton<IOrderProductRepository>(
   OrderProductRepository
 );
 
-container.registerSingleton<IUsersRepository>(
-  "UsersRepository",
-  UsersRepository
-);
+// container.registerSingleton<IUsersRepository>(
+//   "UsersRepository",
+//   UsersRepository
+// );
 
 container.registerSingleton<IProductsRepository>(
   "ProductsRepository",

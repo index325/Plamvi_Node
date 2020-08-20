@@ -11,10 +11,10 @@ export default class FindUserByIdService {
   ) {}
 
   public async execute(user_id: string): Promise<User> {
-    const user = this.usersRepository.findById(user_id);
+    const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError("Usuário não encontrado", 400);
+      throw new AppError('Usuário não encontrado', 400);
     }
 
     return user;

@@ -11,7 +11,7 @@ interface IRequest {
 }
 
 @injectable()
-export default class VerifyCartService {
+export default class AddToCartService {
   constructor(
     @inject("CartsRepository")
     private cartsRepository: ICartRepository,
