@@ -31,7 +31,7 @@ class CustomersRepository implements ICustomersRepository {
       where: { email },
     });
   }
-  public async findById(customer_id: number): Promise<Customer | undefined> {
+  public async findById(customer_id: string): Promise<Customer | undefined> {
     return this.ormRepository.findOne(customer_id);
   }
 }

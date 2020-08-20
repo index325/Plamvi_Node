@@ -6,6 +6,8 @@ import Customer from "../../infra/typeorm/entities/Customer";
 import AppError from "@shared/errors/AppError";
 
 class CustomersRepository implements ICustomersRepository {
+  private customers: Customer[] = [];
+
   public async create({
       name,
       email,
@@ -26,16 +28,22 @@ class CustomersRepository implements ICustomersRepository {
     customer.state = state;
     customer.paid = paid;
 
+    this.customers.push(customer);
+
     return customer;
   }
   public async update(data: IUpdateCustomerDTO): Promise<Customer | undefined> {
     return new Customer();
   }
   public async findByEmail(email: string): Promise<Customer | undefined> {
-    return new Customer();
+    const foundCustomer = this.customers.find(item => item.email === email);
+
+    return foundCustomer;
   }
-  public async findById(customer_id: number): Promise<Customer | undefined> {
-    return new Customer();
+  public async findById(customer_id: string): Promise<Customer | undefined> {
+    const foundCustomer = this.customers.find(item => item.id === customer_id);
+
+    return foundCustomer;
   }
 }
 

@@ -2,7 +2,7 @@ import User from "../infra/typeorm/entities/User";
 import AppError from "@shared/errors/AppError";
 import IUsersRepository from "../repositories/IUsersRepository";
 import { injectable, inject } from "tsyringe";
-import IHashProvider from "../providers/HashProvider/models/IHashProvider";
+import IHashProvider from "../../../shared/container/providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
   avatar: string;

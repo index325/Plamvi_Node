@@ -6,5 +6,5 @@ export default interface ICustomersRepository {
   create(data: ICreateCustomerDTO): Promise<Customer>;
   update(data: IUpdateCustomerDTO): Promise<Customer | undefined>;
   findByEmail(email: string): Promise<Customer | undefined>;
-  findById(customer_id: number): Promise<Customer | undefined>;
+  findById(customer_id: string): Promise<Customer | undefined>;
 }

@@ -4,7 +4,7 @@ import authConfig from "@config/auth";
 import AppError from "@shared/errors/AppError";
 import ICustomersRepository from "../repositories/ICustomersRepository";
 import { injectable, inject } from "tsyringe";
-import IHashProvider from "../providers/HashProvider/models/IHashProvider";
+import IHashProvider from "@shared/container/providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
   email: string;

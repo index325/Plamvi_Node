@@ -40,7 +40,7 @@ describe('AddToCart', () => {
       user_id: 'fake-user-id'
     })
 
-    expect(
+    await expect(
       addToCart.execute({
         user_id: cart.user_id,
         product_id: 'fake-product-id',
@@ -50,7 +50,7 @@ describe('AddToCart', () => {
   });
 
   it('should not be able to create a new cartItem with no cart', async () => {
-    expect(
+    await expect(
       addToCart.execute({
         user_id: 'fake-user-id',
         product_id: 'fake-product-id',
