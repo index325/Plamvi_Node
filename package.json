@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --transpileOnly --ignore-watch node_modules server.ts",
     "test": "jest",
-    "start": "nodemon ./server.js"
+    "start": "nodemon ./server.js",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "aws-sdk": "^2.736.0",

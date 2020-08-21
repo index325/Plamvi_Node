@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateProduct1597798048182 implements MigrationInterface {
+export class CreateTransaction1598047507313 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "products",
+        name: "transactions",
         columns: [
           {
             name: "id",
@@ -14,33 +14,24 @@ export class CreateProduct1597798048182 implements MigrationInterface {
             default: "uuid_generate_v4()",
           },
           {
-            name: "price",
-            type: "float",
-            isNullable: false,
-          },
-          {
-            name: "image_url",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "description",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "short_description",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "sku",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "customer_id",
+            name: "order_id",
             type: "uuid",
+          },
+          {
+            name: "status",
+            type: "varchar",
+          },
+          {
+            name: "authorization_code",
+            type: "varchar",
+          },
+          {
+            name: "tid",
+            type: "varchar",
+          },
+          {
+            name: "installments",
+            type: "integer",
           },
           {
             name: "created_at",
@@ -55,10 +46,10 @@ export class CreateProduct1597798048182 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "CustomerProducts",
-            referencedTableName: "customers",
+            name: "TransactionOrder",
+            referencedTableName: "orders",
             referencedColumnNames: ["id"],
-            columnNames: ["customer_id"],
+            columnNames: ["order_id"],
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
           },
@@ -68,6 +59,6 @@ export class CreateProduct1597798048182 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("products");
+    await queryRunner.dropTable("transactions");
   }
 }

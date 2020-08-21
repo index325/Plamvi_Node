@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateProduct1597798048182 implements MigrationInterface {
+export class CreateCart1598044672174 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "products",
+        name: "carts",
         columns: [
           {
             name: "id",
@@ -14,32 +14,11 @@ export class CreateProduct1597798048182 implements MigrationInterface {
             default: "uuid_generate_v4()",
           },
           {
-            name: "price",
-            type: "float",
-            isNullable: false,
+            name: "opened",
+            type: "boolean",
           },
           {
-            name: "image_url",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "description",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "short_description",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "sku",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "customer_id",
+            name: "user_id",
             type: "uuid",
           },
           {
@@ -55,10 +34,10 @@ export class CreateProduct1597798048182 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "CustomerProducts",
-            referencedTableName: "customers",
+            name: "UserCart",
+            referencedTableName: "users",
             referencedColumnNames: ["id"],
-            columnNames: ["customer_id"],
+            columnNames: ["user_id"],
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
           },
@@ -68,6 +47,6 @@ export class CreateProduct1597798048182 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("products");
+    await queryRunner.dropTable("carts");
   }
 }

@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateProduct1597798048182 implements MigrationInterface {
+export class CreateCartItem1598044914052 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "products",
+        name: "cart_items",
         columns: [
           {
             name: "id",
@@ -14,32 +14,15 @@ export class CreateProduct1597798048182 implements MigrationInterface {
             default: "uuid_generate_v4()",
           },
           {
-            name: "price",
-            type: "float",
-            isNullable: false,
+            name: "quantity",
+            type: "integer",
           },
           {
-            name: "image_url",
-            type: "varchar",
-            isNullable: false,
+            name: "product_id",
+            type: "uuid",
           },
           {
-            name: "description",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "short_description",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "sku",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "customer_id",
+            name: "cart_id",
             type: "uuid",
           },
           {
@@ -55,10 +38,18 @@ export class CreateProduct1597798048182 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "CustomerProducts",
-            referencedTableName: "customers",
+            name: "CartItemProduct",
+            referencedTableName: "products",
             referencedColumnNames: ["id"],
-            columnNames: ["customer_id"],
+            columnNames: ["product_id"],
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+          },
+          {
+            name: "CartItemCart",
+            referencedTableName: "carts",
+            referencedColumnNames: ["id"],
+            columnNames: ["cart_id"],
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
           },
@@ -68,6 +59,6 @@ export class CreateProduct1597798048182 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("products");
+    await queryRunner.dropTable("cart_items");
   }
 }

@@ -12,7 +12,7 @@ import Product from "@modules/Products/infra/typeorm/entities/Product";
 
 import Cart from "./Cart";
 
-@Entity("cart_item")
+@Entity("cart_items")
 class CartItem {
   @PrimaryGeneratedColumn("uuid")
   id: string;

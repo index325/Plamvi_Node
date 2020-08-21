@@ -8,12 +8,10 @@ import {
   JoinColumn,
 } from "typeorm";
 
-import Product from "@modules/Products/infra/typeorm/entities/Product";
-
 import Order from "@modules/Orders/infra/typeorm/entities/Order";
 
-@Entity("order-products")
-class OrderProduct {
+@Entity("transactions")
+class Transactions {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -25,11 +23,13 @@ class OrderProduct {
   order: Order;
 
   @Column()
-  product_id: string;
+  authorization_code: string;
 
-  @ManyToOne(() => Product)
-  @JoinColumn({ name: "product_id" })
-  product: Product;
+  @Column()
+  tid: string;
+
+  @Column()
+  installments: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -38,4 +38,4 @@ class OrderProduct {
   updated_at: Date;
 }
 
-export default OrderProduct;
+export default Transactions;
