@@ -19,29 +19,78 @@ class ProductsRepository implements IProductsRepository {
   }: ICreateProductDTO): Promise<Product> {
     const product = new Product();
 
+    product.id = customer_id;
     product.customer = {} as Customer;
     product.customer.id = customer_id;
     product.sku = sku;
-    
+
+    this.products.push(product);
+
     return product;
   }
 
-  public async update(data: IUpdateProductDTO): Promise<Product | undefined> {
-    return new Product();
+  public async update({
+    customer_id,
+    description,
+    image_url,
+    name,
+    price,
+    product_id,
+    short_description,
+    sku
+  }: IUpdateProductDTO): Promise<Product> {
+    const updatedProductIndex = this.products.findIndex(
+      item => item.id === product_id
+    );
+
+    const updatedProducts = this.products.map((item) => {
+      if (item.id === product_id) {
+        return {
+          ...item,
+          description,
+          image_url,
+          name,
+          price,
+          short_description,
+          sku
+        }
+      }
+
+      return item;
+    });
+
+    this.products = updatedProducts;
+
+    return this.products[updatedProductIndex];
+    ;
   }
   public async listAllProductsByCustomer(
     customer_id: string
   ): Promise<Product[]> {
-    return [new Product()];
+    const foundProducts = this.products.filter(item => item.customer.id === customer_id);
+
+    return foundProducts;
   }
   public async findProductById(
     product_id: string
   ): Promise<Product | undefined> {
-    return new Product();
+    const foundProduct = this.products.find(item => item.id === product_id);
+
+    return foundProduct;
+  }
+
+  public async findBySku(
+    sku: string
+  ): Promise<Product | undefined> {
+    const foundProduct = this.products.find(item => item.sku === sku);
+
+    return foundProduct;
   }
 
   public async verifyIfSKUAlreadyExists(sku: string): Promise<boolean> {
-    return false;
+    const foundProduct = this.products.find(item => item.sku === sku);
+
+    return !!foundProduct;
   }
 }
 

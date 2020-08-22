@@ -4,10 +4,10 @@ import IUpdateProductDTO from "@modules/Products/dtos/IUpdateProductDTO";
 
 export default interface IProductRepository {
   create(data: ICreateProductDTO): Promise<Product>;
-  update(data: IUpdateProductDTO): Promise<Product | undefined>;
+  update(data: IUpdateProductDTO): Promise<Product>;
   listAllProductsByCustomer(
     customer_id: string
-  ): Promise<Product[] | undefined>;
+  ): Promise<Product[]>;
   findProductById(product_id: string): Promise<Product | undefined>;
   verifyIfSKUAlreadyExists(sku: string): Promise<boolean>;
 }
