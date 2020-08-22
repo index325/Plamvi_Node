@@ -31,11 +31,15 @@ export default class UpdateProductService {
     description,
     short_description,
   }: IRequest): Promise<Product> {
-    const productAlreadyExists = await this.productsRepository.verifyIfSKUAlreadyExists(
-      sku
-    );
+    const foundProduct = await this.productsRepository.findProductById(product_id);
 
-    if (productAlreadyExists) {
+    const verifySku = await this.productsRepository.verifyIfSKUAlreadyExists(sku);
+
+    if (!foundProduct) {
+      throw new AppError('Produto não existe no sistema', 400);
+    }
+    
+    if (verifySku && foundProduct.customer.id !== customer_id) {
       throw new AppError("Já existe um produto cadastrado com este SKU", 400);
     }
 
@@ -50,10 +54,6 @@ export default class UpdateProductService {
       short_description,
     });
 
-    if (product) {
-      return product;
-    } else {
-      throw new AppError("Não foi possível cadastrar o produto", 400);
-    }
+    return product;
   }
 }

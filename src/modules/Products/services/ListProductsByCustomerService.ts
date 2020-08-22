@@ -11,14 +11,10 @@ export default class ListProductsByCustomerService {
   ) {}
 
   public async execute(customer_id: string): Promise<Product[]> {
-    const product = await this.productsRepository.listAllProductsByCustomer(
+    const products = await this.productsRepository.listAllProductsByCustomer(
       customer_id
     );
 
-    if (product) {
-      return product;
-    } else {
-      throw new AppError("Não foi possível listar os produtos");
-    }
+    return products;
   }
 }
