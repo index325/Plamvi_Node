@@ -28,12 +28,11 @@ export default class UpdateUserService {
     state,
     avatar,
   }: IRequest): Promise<User> {
-    const checkUserExists = await this.usersRepository.findIfEmailAlreadyExists(
+    const foundUser = await this.usersRepository.findByEmail(
       email,
-      user_id
     );
 
-    if (checkUserExists) {
+    if (foundUser && foundUser.id !== user_id) {
       throw new AppError("E-mail já cadastrado");
     }
 
