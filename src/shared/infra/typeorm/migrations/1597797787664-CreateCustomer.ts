@@ -30,7 +30,6 @@ export class CreateCustomer1597797787664 implements MigrationInterface {
             name: "paid",
             type: "boolean",
           },
-
           {
             name: "created_at",
             type: "timestamp",

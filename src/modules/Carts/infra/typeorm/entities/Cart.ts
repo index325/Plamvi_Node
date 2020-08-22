@@ -7,6 +7,7 @@ import {
   OneToOne,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from "typeorm";
 
 import User from "@modules/Users/infra/typeorm/entities/User";
@@ -27,11 +28,11 @@ class Cart {
   @JoinColumn({ name: "user_id" })
   user: User;
 
-  @Column()
-  cart_item_id: string;
-
-  @ManyToOne(() => CartItem)
-  @JoinColumn({ name: "cart_item_id" })
+  @OneToMany(
+    (type) => CartItem,
+    (cart_item) => cart_item.cart,
+    { eager: true }
+  )
   cart_item: CartItem[];
 
   @CreateDateColumn()

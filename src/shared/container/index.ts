@@ -22,12 +22,15 @@ import UsersRepository from "@modules/Users/infra/typeorm/repositories/UsersRepo
 import IProductsRepository from "@modules/Products/repositories/IProductsRepository";
 import ProductsRepository from "@modules/Products/infra/typeorm/repositories/ProductsRepository";
 
+import ICustomersRepository from "@modules/Customers/repositories/ICustomersRepository";
+import CustomersRepository from "@modules/Customers/infra/typeorm/repositories/CustomersRepository";
+
 container.registerSingleton<ICartItemsRepository>(
   "CartItemsRepository",
   CartItemsRepository
 );
 
-container.registerSingleton<ICartRepository>("CartRepository", CartRepository);
+container.registerSingleton<ICartRepository>("CartsRepository", CartRepository);
 
 container.registerSingleton<IOrdersRepository>(
   "OrderRepository",
@@ -44,7 +47,14 @@ container.registerSingleton<IUsersRepository>(
   UsersRepository
 );
 
+container.registerSingleton<ICustomersRepository>(
+  "CustomersRepository",
+  CustomersRepository
+);
+
 container.registerSingleton<IProductsRepository>(
   "ProductsRepository",
   ProductsRepository
 );
+
+

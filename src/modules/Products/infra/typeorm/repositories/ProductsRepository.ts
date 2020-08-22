@@ -20,10 +20,10 @@ class ProductsRepository implements IProductsRepository {
     return product;
   }
 
-  public async update(data: IUpdateProductDTO): Promise<Product | undefined> {
+  public async update(data: IUpdateProductDTO): Promise<Product> {
     await this.ormRepository.update({ id: data.product_id }, data);
 
-    const product = await this.ormRepository.findOne(data.product_id);
+    const product = await this.ormRepository.findOne(data.product_id) as Product;
 
     return product;
   }
