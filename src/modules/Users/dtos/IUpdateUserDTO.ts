@@ -3,6 +3,7 @@ export default interface IUpdateCartDTO {
     email: string;
     city: string;
     state: string;
+    password: string;
     avatar?: string;
   }
   

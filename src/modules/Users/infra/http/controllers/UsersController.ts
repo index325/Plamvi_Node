@@ -27,11 +27,13 @@ export default class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
+    const { id } = request.user;
     const { name, email, password, city, state, avatar } = request.body;
 
     const createUser = container.resolve(UpdateUserService);
 
     const user = await createUser.execute({
+      user_id: id,
       name,
       email,
       password,

@@ -13,7 +13,5 @@ usersRouter.put(
   ensureAuthenticated,
   usersController.updateAvatar
 );
-usersRouter.get("/detail/:user_id", usersController.findById);
-// usersRouter.get("/detail/:user_id", usersController.findById);
 
 export default usersRouter;
