@@ -6,6 +6,7 @@ import FindUserByIdService from "@modules/Users/services/FindUserByIdService";
 import UpdateUserService from "@modules/Users/services/UpdateUserService";
 import UpdateUserAvatarService from "@modules/Users/services/UpdateUserAvatarService";
 import ListAllAvailableCustomersService from "@modules/Users/services/ListAllAvailableCustomersService";
+import {classToClass} from "class-transformer";
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -22,9 +23,7 @@ export default class UsersController {
       avatar,
     });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -40,12 +39,9 @@ export default class UsersController {
       password,
       city,
       state,
-      avatar,
     });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   public async updateAvatar(
@@ -53,18 +49,15 @@ export default class UsersController {
     response: Response
   ): Promise<Response> {
     const { id } = request.user;
-    const { avatar } = request.body;
 
     const createUser = container.resolve(UpdateUserAvatarService);
 
     const user = await createUser.execute({
       user_id: id,
-      avatar,
+      avatar: request.file.filename,
     });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   public async findById(
@@ -77,9 +70,7 @@ export default class UsersController {
 
     const user = await createUser.execute(user_id);
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   public async listAllAvailableCustomers(
@@ -94,6 +85,6 @@ export default class UsersController {
 
     const customers = await listAllAvailableCustomers.execute({ id });
 
-    return response.json(customers);
+    return response.json(classToClass(customers));
   }
 }

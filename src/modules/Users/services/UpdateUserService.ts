@@ -5,7 +5,6 @@ import { injectable, inject } from "tsyringe";
 
 interface IRequest {
   user_id: string;
-  avatar: string;
   name: string;
   password: string;
   email: string;
@@ -26,7 +25,6 @@ export default class UpdateUserService {
     email,
     city,
     state,
-    avatar,
   }: IRequest): Promise<User> {
     const foundUser = await this.usersRepository.findByEmail(
       email,
@@ -46,7 +44,6 @@ export default class UpdateUserService {
     user.email = email;
     user.city = city;
     user.state = state;
-    user.avatar = avatar;
 
     await this.usersRepository.update(user);
 
