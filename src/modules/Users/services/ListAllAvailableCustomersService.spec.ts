@@ -1,20 +1,17 @@
 import FakeUsersRepository from "../repositories/fakes/FakeUsersRepository";
 import FakeCustomersRepository from "@modules/Customers/repositories/fake/FakeCustomersRepository";
-import FakeMailprovider from "@shared/container/providers/MailProvider/fakes/FakeMailProvider";
 
 import ListAllAvailableCustomersService from "./ListAllAvailableCustomersService";
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeCustomersRepository: FakeCustomersRepository;
 
-let fakeMailprovider: FakeMailprovider;
 let listAllAvailableCustomers: ListAllAvailableCustomersService;
 
 describe("ListAllAvailableCustomers", () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeCustomersRepository = new FakeCustomersRepository();
-    fakeMailprovider = new FakeMailprovider();
     listAllAvailableCustomers = new ListAllAvailableCustomersService(
       fakeCustomersRepository,
       fakeUsersRepository
