@@ -52,13 +52,13 @@ export default class UsersController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { user_id } = request.params;
+    const { id } = request.user;
     const { avatar } = request.body;
 
     const createUser = container.resolve(UpdateUserAvatarService);
 
     const user = await createUser.execute({
-      user_id,
+      user_id: id,
       avatar,
     });
 
