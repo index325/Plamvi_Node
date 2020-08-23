@@ -23,8 +23,7 @@ interface IUploadConfig {
 const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 
 export default {
-  // driver: process.env.STORAGE_PROVIDER, //TODO: PRECISAMOS DESCOBRIR O PQ process.env.STORAGE_PROVIDER ESTÁ RETORNANDO UNDEFINED AQUI, PORÉM EM OUTRO LUGAR, ELE RETORNA CORRETAMENTE
-  driver: 'disk',
+  driver: process.env.STORAGE_PROVIDER,
   tmpFolder,
   uploadsFolder: path.resolve(tmpFolder, 'uploads'),
 
