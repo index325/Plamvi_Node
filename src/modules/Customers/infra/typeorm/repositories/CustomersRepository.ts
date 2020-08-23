@@ -27,12 +27,21 @@ class CustomersRepository implements ICustomersRepository {
     return customer;
   }
   public async findByEmail(email: string): Promise<Customer | undefined> {
-    return this.ormRepository.findOne({
+    return await this.ormRepository.findOne({
       where: { email },
     });
   }
   public async findById(customer_id: string): Promise<Customer | undefined> {
-    return this.ormRepository.findOne(customer_id);
+    return await this.ormRepository.findOne(customer_id);
+  }
+
+  public async listAllAvailableCustomersByCityAndState(
+    city: string,
+    state: string
+  ): Promise<Customer[] | undefined> {
+    return await this.ormRepository.find({
+      where: { city, state },
+    });
   }
 }
 

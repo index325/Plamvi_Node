@@ -56,5 +56,3 @@ container.registerSingleton<IProductsRepository>(
   "ProductsRepository",
   ProductsRepository
 );
-
-

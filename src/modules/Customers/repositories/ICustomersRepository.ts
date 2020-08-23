@@ -7,4 +7,5 @@ export default interface ICustomersRepository {
   update(data: IUpdateCustomerDTO): Promise<Customer | undefined>;
   findByEmail(email: string): Promise<Customer | undefined>;
   findById(customer_id: string): Promise<Customer | undefined>;
+  listAllAvailableCustomersByCityAndState(city: string, state: string): Promise<Customer[] | undefined>;
 }

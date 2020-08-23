@@ -5,6 +5,7 @@ import CreateUserService from "@modules/Users/services/CreateUserService";
 import FindUserByIdService from "@modules/Users/services/FindUserByIdService";
 import UpdateUserService from "@modules/Users/services/UpdateUserService";
 import UpdateUserAvatarService from "@modules/Users/services/UpdateUserAvatarService";
+import ListAllAvailableCustomersService from "@modules/Users/services/ListAllAvailableCustomersService";
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -79,5 +80,20 @@ export default class UsersController {
     delete user.password;
 
     return response.json(user);
+  }
+
+  public async listAllAvailableCustomers(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.user;
+
+    const listAllAvailableCustomers = container.resolve(
+      ListAllAvailableCustomersService
+    );
+
+    const customers = await listAllAvailableCustomers.execute({ id });
+
+    return response.json(customers);
   }
 }

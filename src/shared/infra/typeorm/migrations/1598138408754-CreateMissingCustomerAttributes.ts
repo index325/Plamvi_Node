@@ -16,7 +16,7 @@ export class CreateMissingCustomerAttributes1598138408754
       new TableColumn({
         name: "city",
         type: "varchar",
-        isNullable: true,
+        isNullable: false,
       })
     );
     await queryRunner.addColumn(
@@ -24,7 +24,7 @@ export class CreateMissingCustomerAttributes1598138408754
       new TableColumn({
         name: "state",
         type: "varchar",
-        isNullable: true,
+        isNullable: false,
       })
     );
   }

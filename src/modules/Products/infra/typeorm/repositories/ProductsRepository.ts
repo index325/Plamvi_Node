@@ -23,7 +23,9 @@ class ProductsRepository implements IProductsRepository {
   public async update(data: IUpdateProductDTO): Promise<Product> {
     await this.ormRepository.update({ id: data.product_id }, data);
 
-    const product = await this.ormRepository.findOne(data.product_id) as Product;
+    const product = (await this.ormRepository.findOne(
+      data.product_id
+    )) as Product;
 
     return product;
   }
@@ -41,9 +43,11 @@ class ProductsRepository implements IProductsRepository {
   }
 
   public async verifyIfSKUAlreadyExists(sku: string): Promise<boolean> {
-    return !!this.ormRepository.find({
-      where: sku,
+    const result = await this.ormRepository.findOne({
+      where: { sku },
     });
+
+    return !!result;
   }
 }
 

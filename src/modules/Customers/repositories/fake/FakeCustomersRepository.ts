@@ -5,21 +5,21 @@ import IUpdateCustomerDTO from "@modules/Customers/dtos/IUpdateCustomerDTO";
 import Customer from "../../infra/typeorm/entities/Customer";
 import AppError from "@shared/errors/AppError";
 
-class CustomersRepository implements ICustomersRepository {
+class FakeCustomersRepository implements ICustomersRepository {
   private customers: Customer[] = [];
 
   public async create({
-      name,
-      email,
-      password,
-      avatar,
-      city,
-      state,
-      paid
+    name,
+    email,
+    password,
+    avatar,
+    city,
+    state,
+    paid,
   }: ICreateCustomerDTO): Promise<Customer> {
-    const customer =  new Customer();
+    const customer = new Customer();
 
-    customer.id = 'fake-id';
+    customer.id = "fake-id";
     customer.name = name;
     customer.email = email;
     customer.password = password;
@@ -36,15 +36,28 @@ class CustomersRepository implements ICustomersRepository {
     return new Customer();
   }
   public async findByEmail(email: string): Promise<Customer | undefined> {
-    const foundCustomer = this.customers.find(item => item.email === email);
+    const foundCustomer = this.customers.find((item) => item.email === email);
 
     return foundCustomer;
   }
   public async findById(customer_id: string): Promise<Customer | undefined> {
-    const foundCustomer = this.customers.find(item => item.id === customer_id);
+    const foundCustomer = this.customers.find(
+      (item) => item.id === customer_id
+    );
+
+    return foundCustomer;
+  }
+
+  public async listAllAvailableCustomersByCityAndState(
+    city: string,
+    state: string
+  ): Promise<Customer[] | undefined> {
+    const foundCustomer = this.customers.filter(
+      (item) => item.city === city && item.state === state
+    );
 
     return foundCustomer;
   }
 }
 
-export default CustomersRepository;
+export default FakeCustomersRepository;

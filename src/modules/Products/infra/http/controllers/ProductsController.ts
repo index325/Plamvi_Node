@@ -8,11 +8,13 @@ import UpdateProductService from "@modules/Products/services/UpdateProductServic
 
 export default class ProductsController {
   public async create(request: Request, response: Response): Promise<Response> {
+
+    const {id} = request.customer;
+
     const {
       name,
       sku,
       image_url,
-      customer_id,
       price,
       description,
       short_description,
@@ -24,7 +26,7 @@ export default class ProductsController {
       name,
       sku,
       image_url,
-      customer_id,
+      customer_id: id,
       price,
       description,
       short_description,

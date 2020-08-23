@@ -32,6 +32,9 @@ import {
 
     @Column()
     description: string;
+
+    @Column()
+    customer_id: string;
   
     @ManyToOne(() => Customer)
     @JoinColumn({ name: "customer_id" })
