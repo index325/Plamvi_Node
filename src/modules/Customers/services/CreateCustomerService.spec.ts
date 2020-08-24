@@ -1,4 +1,4 @@
-import FakeCustomersRespository from './../repositories/fake/FakeCustomersRepository';
+import FakeCustomersRespository from '../repositories/fakes/FakeCustomersRepository';
 
 import FakeHashProvider from '@shared/container/providers/HashProvider/fakes/FakeHashProvider';
 

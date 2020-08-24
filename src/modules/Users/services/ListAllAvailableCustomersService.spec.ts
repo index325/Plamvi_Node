@@ -1,5 +1,5 @@
 import FakeUsersRepository from "../repositories/fakes/FakeUsersRepository";
-import FakeCustomersRepository from "@modules/Customers/repositories/fake/FakeCustomersRepository";
+import FakeCustomersRepository from "@modules/Customers/repositories/fakes/FakeCustomersRepository";
 
 import ListAllAvailableCustomersService from "./ListAllAvailableCustomersService";
 

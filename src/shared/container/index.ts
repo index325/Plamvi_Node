@@ -19,11 +19,17 @@ import OrderProductRepository from "@modules/Orders/infra/typeorm/repositories/O
 import IUsersRepository from "@modules/Users/repositories/IUsersRepository";
 import UsersRepository from "@modules/Users/infra/typeorm/repositories/UsersRepository";
 
+import IUserTokenRepository from "@modules/Users/repositories/IUserTokenRepository";
+import UserTokensRepository from "@modules/Users/infra/typeorm/repositories/UserTokensRepository";
+
 import IProductsRepository from "@modules/Products/repositories/IProductsRepository";
 import ProductsRepository from "@modules/Products/infra/typeorm/repositories/ProductsRepository";
 
 import ICustomersRepository from "@modules/Customers/repositories/ICustomersRepository";
 import CustomersRepository from "@modules/Customers/infra/typeorm/repositories/CustomersRepository";
+
+import ICustomerTokensRepository from "@modules/Customers/repositories/ICustomerTokensRepository";
+import CustomerTokensRepository from "@modules/Customers/infra/typeorm/repositories/CustomerTokensRepository";
 
 container.registerSingleton<ICartItemsRepository>(
   "CartItemsRepository",
@@ -47,9 +53,19 @@ container.registerSingleton<IUsersRepository>(
   UsersRepository
 );
 
+container.registerSingleton<IUserTokenRepository>(
+  "UserTokensRepository",
+  UserTokensRepository
+);
+
 container.registerSingleton<ICustomersRepository>(
   "CustomersRepository",
   CustomersRepository
+);
+
+container.registerSingleton<ICustomerTokensRepository>(
+  "CustomerTokensRepository",
+  CustomerTokensRepository
 );
 
 container.registerSingleton<IProductsRepository>(

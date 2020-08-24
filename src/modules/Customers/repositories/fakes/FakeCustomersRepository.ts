@@ -58,6 +58,14 @@ class FakeCustomersRepository implements ICustomersRepository {
 
     return foundCustomer;
   }
+
+  public async save(customer: Customer): Promise<Customer> {
+    const findIndex = this.customers.findIndex((c) => c.id === customer.id);
+
+    this.customers[findIndex] = customer;
+
+    return customer;
+  }
 }
 
 export default FakeCustomersRepository;

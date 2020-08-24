@@ -43,6 +43,10 @@ class CustomersRepository implements ICustomersRepository {
       where: { city, state },
     });
   }
+
+  public async save(customer: Customer): Promise<Customer> {
+    return this.ormRepository.save(customer);
+  }
 }
 
 export default CustomersRepository;
