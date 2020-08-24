@@ -8,6 +8,7 @@ import orderProductsRouter from "@modules/Orders/infra/http/routes/orderProducts
 import productsRouter from "@modules/Products/infra/http/routes/products.routes";
 // import transactionsRouter from "@modules/Transactions/infra/http/routes/transactions.routes";
 import usersRouter from "@modules/Users/infra/http/routes/user.routes";
+import passwordRouter from "@modules/Users/infra/http/routes/password.routes";
 import usersSessionRouter from "@modules/Users/infra/http/routes/sessions.routes";
 
 const routes = Router();
@@ -19,6 +20,7 @@ routes.use("/orders", ordersRouter);
 routes.use("/orders/products", orderProductsRouter);
 routes.use("/products", productsRouter);
 routes.use("/users", usersRouter);
+routes.use("/users/password", passwordRouter);
 routes.use("/users/sessions", usersSessionRouter);
 
 export default routes;

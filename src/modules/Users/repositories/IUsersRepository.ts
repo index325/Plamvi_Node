@@ -10,4 +10,5 @@ export default interface IUsersRepository {
   create(data: ICreateUserDTO): Promise<User>;
   update(data: IUpdateUserDTO): Promise<User>;
   updateUserAvatar({user, avatar}: IUpdateUserAvatarDTO): Promise<User>;
+  save(user: User): Promise<User>;
 }

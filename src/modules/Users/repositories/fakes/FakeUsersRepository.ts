@@ -4,18 +4,18 @@ import IUpdateUserDTO from "@modules/Users/dtos/IUpdateUserDTO";
 import IUpdateUserAvatarDTO from "@modules/Users/dtos/IUpdateUserAvatarDTO";
 import User from "../../infra/typeorm/entities/User";
 
-import { uuid } from 'uuidv4';
+import { uuid } from "uuidv4";
 
 class UsersRepository implements IUsersRepository {
   private users: User[] = [];
 
   public async findById(user_id: string): Promise<User | undefined> {
-    const user = this.users.find(item => item.id === user_id);
+    const user = this.users.find((item) => item.id === user_id);
 
     return user;
   }
   public async findByEmail(email: string): Promise<User | undefined> {
-    const user = this.users.find(item => item.email === email);
+    const user = this.users.find((item) => item.email === email);
 
     return user;
   }
@@ -32,9 +32,11 @@ class UsersRepository implements IUsersRepository {
     email,
     name,
     state,
-    avatar
+    avatar,
   }: IUpdateUserDTO): Promise<User> {
-    const selectedUserIndex = this.users.findIndex(item => item.email === email);
+    const selectedUserIndex = this.users.findIndex(
+      (item) => item.email === email
+    );
 
     const selectedUser = this.users[selectedUserIndex];
 
@@ -43,7 +45,7 @@ class UsersRepository implements IUsersRepository {
       city,
       name,
       state,
-    }
+    };
 
     if (avatar) {
       this.users[selectedUserIndex].avatar = avatar;
@@ -58,12 +60,12 @@ class UsersRepository implements IUsersRepository {
   }: IUpdateUserAvatarDTO): Promise<User> {
     user.avatar = avatar;
 
-    const updatedUserList = this.users.map(item => {
+    const updatedUserList = this.users.map((item) => {
       if (item.email === user.email) {
         return {
           ...item,
           avatar: user.avatar,
-        }
+        };
       }
 
       return item;
@@ -80,7 +82,7 @@ class UsersRepository implements IUsersRepository {
     password,
     state,
     avatar,
-    city
+    city,
   }: ICreateUserDTO): Promise<User> {
     const user: User = {
       id: uuid(),
@@ -89,9 +91,12 @@ class UsersRepository implements IUsersRepository {
       password,
       state,
       city,
-      avatar: '',
+      avatar: "",
       created_at: new Date(),
       updated_at: new Date(),
+      getAvatarUrl: () => {
+        return "";
+      },
     };
 
     if (avatar) {
@@ -99,6 +104,14 @@ class UsersRepository implements IUsersRepository {
     }
 
     this.users.push(user);
+
+    return user;
+  }
+
+  public async save(user: User): Promise<User> {
+    const findIndex = this.users.findIndex((u) => u.id === user.id);
+
+    this.users[findIndex] = user;
 
     return user;
   }

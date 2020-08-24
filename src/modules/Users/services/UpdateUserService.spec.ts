@@ -29,7 +29,6 @@ describe('UpdateUserProfileService', () => {
       password: '123456',
       city: 'NY',
       state: 'NY',
-      avatar: '',
       user_id: user.id,
     });
 
@@ -46,7 +45,6 @@ describe('UpdateUserProfileService', () => {
         password: '123456',
         city: 'NY',
         state: 'NY',
-        avatar: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -76,7 +74,6 @@ describe('UpdateUserProfileService', () => {
         password: '123456',
         city: 'NY',
         state: 'NY',
-        avatar: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
