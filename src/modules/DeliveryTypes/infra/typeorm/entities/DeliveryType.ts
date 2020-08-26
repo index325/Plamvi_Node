@@ -10,7 +10,7 @@ import {
 
 import Customer from "@modules/Customers/infra/typeorm/entities/Customer";
 
-@Entity("delivery-types")
+@Entity("delivery_types")
 class DeliveryType {
   @PrimaryGeneratedColumn("uuid")
   id: string;

@@ -31,6 +31,9 @@ import CustomersRepository from "@modules/Customers/infra/typeorm/repositories/C
 import ICustomerTokensRepository from "@modules/Customers/repositories/ICustomerTokensRepository";
 import CustomerTokensRepository from "@modules/Customers/infra/typeorm/repositories/CustomerTokensRepository";
 
+import IDeliveryTypesRepository from "@modules/DeliveryTypes/repositories/IDeliveryTypeRepository";
+import DeliveryTypeRepository from "@modules/DeliveryTypes/infra/typeorm/repositories/DeliveryTypeRepository";
+
 container.registerSingleton<ICartItemsRepository>(
   "CartItemsRepository",
   CartItemsRepository
@@ -72,3 +75,10 @@ container.registerSingleton<IProductsRepository>(
   "ProductsRepository",
   ProductsRepository
 );
+
+container.registerSingleton<IDeliveryTypesRepository>(
+  "DeliveryTypeRepository",
+  DeliveryTypeRepository
+);
+
+

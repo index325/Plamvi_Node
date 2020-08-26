@@ -2,7 +2,7 @@ import { Router } from "express";
 import cartsRouter from "@modules/Carts/infra/http/routes/cart.routes";
 import customerRouter from "@modules/Customers/infra/http/routes/customer.routes";
 import customerSessionRouter from "@modules/Customers/infra/http/routes/sessions.routes";
-// import deliveryRouter from "@modules/DeliveryTypes/infra/http/routes/delivery.routes";
+import deliveryRouter from "@modules/DeliveryTypes/infra/http/routes/deliveryTypes.routes";
 import ordersRouter from "@modules/Orders/infra/http/routes/order.routes";
 import orderProductsRouter from "@modules/Orders/infra/http/routes/orderProducts.routes";
 import productsRouter from "@modules/Products/infra/http/routes/products.routes";
@@ -29,5 +29,7 @@ routes.use("/products", productsRouter);
 routes.use("/users", usersRouter);
 routes.use("/users/password", passwordUserRouter);
 routes.use("/users/sessions", usersSessionRouter);
+
+routes.use("/delivery_types", deliveryRouter);
 
 export default routes;

@@ -20,9 +20,9 @@ class CustomersRepository implements ICustomersRepository {
     return customer;
   }
   public async update(data: IUpdateCustomerDTO): Promise<Customer | undefined> {
-    await this.ormRepository.update({ id: data.customer_id }, data);
+    await this.ormRepository.update({ id: data.id }, data);
 
-    const customer = await this.ormRepository.findOne(data.customer_id);
+    const customer = await this.ormRepository.findOne(data.id);
 
     return customer;
   }
