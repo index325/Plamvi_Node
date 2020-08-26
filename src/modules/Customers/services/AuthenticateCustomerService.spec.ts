@@ -1,40 +1,39 @@
-import FakeCustomersRespository from '../repositories/fakes/FakeCustomersRepository';
+import FakeCustomersRespository from "../repositories/fakes/FakeCustomersRepository";
 
-import FakeHashProvider from '@shared/container/providers/HashProvider/fakes/FakeHashProvider';
+import FakeHashProvider from "@shared/container/providers/HashProvider/fakes/FakeHashProvider";
 
-import CreateCustomerService from './CreateCustomerService';
-import AuthenticateCustomerService from './AuthenticateCustomerService';
+import CreateCustomerService from "./CreateCustomerService";
+import AuthenticateCustomerService from "./AuthenticateCustomerService";
 
-import AppError from '@shared/errors/AppError';
+import AppError from "@shared/errors/AppError";
 
 let fakeCustomersRepository: FakeCustomersRespository;
 let fakeHashProvider: FakeHashProvider;
 let createCustomer: CreateCustomerService;
 let authenticateCustomer: AuthenticateCustomerService;
 
-describe('CreateCustomer', () => {
+describe("CreateCustomer", () => {
   beforeEach(() => {
     fakeCustomersRepository = new FakeCustomersRespository();
     fakeHashProvider = new FakeHashProvider();
 
     createCustomer = new CreateCustomerService(
       fakeCustomersRepository,
-      fakeHashProvider,
+      fakeHashProvider
     );
 
     authenticateCustomer = new AuthenticateCustomerService(
       fakeCustomersRepository,
-      fakeHashProvider,
+      fakeHashProvider
     );
-  })
-  it('should be able to authenticate a customer', async () => {
+  });
+  it("should be able to authenticate a customer", async () => {
     const customer = await createCustomer.execute({
-      avatar: 'avatar-url',
-      name: 'test-costumer',
-      email: 'email@costumer.com',
-      password: '123123',
-      city: 'Belém',
-      state: 'PA',
+      name: "test-costumer",
+      email: "email@costumer.com",
+      password: "123123",
+      city: "Belém",
+      state: "PA",
     });
 
     const response = await authenticateCustomer.execute({
@@ -42,43 +41,40 @@ describe('CreateCustomer', () => {
       password: customer.password,
     });
 
-
-    expect(response).toHaveProperty('token');
+    expect(response).toHaveProperty("token");
     expect(response.customer).toEqual(customer);
   });
 
-  it('should not be able to authenticate user with wrong email', async () => {
+  it("should not be able to authenticate user with wrong email", async () => {
     const customer = await createCustomer.execute({
-      avatar: 'avatar-url',
-      name: 'test-costumer',
-      email: 'email@costumer.com',
-      password: '123123',
-      city: 'Belém',
-      state: 'PA',
+      name: "test-costumer",
+      email: "email@costumer.com",
+      password: "123123",
+      city: "Belém",
+      state: "PA",
     });
 
     expect(
       authenticateCustomer.execute({
-        email: 'wrong@email.com',
+        email: "wrong@email.com",
         password: customer.password,
       })
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to authenticate user with wrong password', async () => {
+  it("should not be able to authenticate user with wrong password", async () => {
     const customer = await createCustomer.execute({
-      avatar: 'avatar-url',
-      name: 'test-costumer',
-      email: 'email@costumer.com',
-      password: '123123',
-      city: 'Belém',
-      state: 'PA',
+      name: "test-costumer",
+      email: "email@costumer.com",
+      password: "123123",
+      city: "Belém",
+      state: "PA",
     });
 
     expect(
       authenticateCustomer.execute({
         email: customer.email,
-        password: 'wrong-password',
+        password: "wrong-password",
       })
     ).rejects.toBeInstanceOf(AppError);
   });

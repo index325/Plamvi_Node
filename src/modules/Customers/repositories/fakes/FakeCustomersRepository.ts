@@ -1,3 +1,5 @@
+import {uuid} from 'uuidv4';
+
 import ICustomersRepository from "@modules/Customers/repositories/ICustomersRepository";
 import ICreateCustomerDTO from "@modules/Customers/dtos/ICreateCustomerDTO";
 import IUpdateCustomerDTO from "@modules/Customers/dtos/IUpdateCustomerDTO";
@@ -19,7 +21,7 @@ class FakeCustomersRepository implements ICustomersRepository {
   }: ICreateCustomerDTO): Promise<Customer> {
     const customer = new Customer();
 
-    customer.id = "fake-id";
+    customer.id = uuid();
     customer.name = name;
     customer.email = email;
     customer.password = password;

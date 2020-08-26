@@ -1,58 +1,54 @@
-import FakeCustomersRespository from '../repositories/fakes/FakeCustomersRepository';
+import FakeCustomersRespository from "../repositories/fakes/FakeCustomersRepository";
 
-import FakeHashProvider from '@shared/container/providers/HashProvider/fakes/FakeHashProvider';
+import FakeHashProvider from "@shared/container/providers/HashProvider/fakes/FakeHashProvider";
 
-import CreateCustomerService from './CreateCustomerService';
+import CreateCustomerService from "./CreateCustomerService";
 
-import AppError from '@shared/errors/AppError';
+import AppError from "@shared/errors/AppError";
 
 let fakeCustomersRepository: FakeCustomersRespository;
 let fakeHashProvider: FakeHashProvider;
 let createCustomer: CreateCustomerService;
 
-describe('CreateCustomer', () => {
+describe("CreateCustomer", () => {
   beforeEach(() => {
     fakeCustomersRepository = new FakeCustomersRespository();
     fakeHashProvider = new FakeHashProvider();
     createCustomer = new CreateCustomerService(
       fakeCustomersRepository,
-      fakeHashProvider,
+      fakeHashProvider
     );
-  })
-  it('should be able to create a new customer', async () => {
+  });
+  it("should be able to create a new customer", async () => {
     const customer = await createCustomer.execute({
-      avatar: 'avatar-url',
-      name: 'test-costumer',
-      email: 'email@costumer.com',
-      password: '123123',
-      city: 'Belém',
-      state: 'PA',
+      name: "test-costumer",
+      email: "email@costumer.com",
+      password: "123123",
+      city: "Belém",
+      state: "PA",
     });
 
-
-    expect(customer.id).toBe('fake-id');
+    expect(customer.name).toBe("test-costumer");
+    expect(customer.email).toBe("email@costumer.com");
   });
 
-  it('should not be able to create two customers with the same email', async () => {
+  it("should not be able to create two customers with the same email", async () => {
     await createCustomer.execute({
-      avatar: 'avatar-url',
-      name: 'test-costumer',
-      email: 'email@costumer.com',
-      password: '123123',
-      city: 'Belém',
-      state: 'PA',
+      name: "test-costumer",
+      email: "email@costumer.com",
+      password: "123123",
+      city: "Belém",
+      state: "PA",
     });
-
 
     await expect(
       createCustomer.execute({
-        avatar: 'avatar-url',
-        name: 'test-costumer-2',
-        email: 'email@costumer.com',
-        password: '123123',
-        city: 'Belém',
-        state: 'PA',
+        name: "test-costumer-2",
+        email: "email@costumer.com",
+        password: "123123",
+        city: "Belém",
+        state: "PA",
       })
-      ).rejects.toBeInstanceOf(AppError);
-});
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });

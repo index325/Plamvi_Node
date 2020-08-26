@@ -5,7 +5,6 @@ import { injectable, inject } from "tsyringe";
 import IHashProvider from "@shared/container/providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
-  avatar: string;
   name: string;
   password: string;
   email: string;
@@ -28,7 +27,6 @@ export default class CreateUserService {
     password,
     city,
     state,
-    avatar,
   }: IRequest): Promise<Customer> {
     const checkUserExists = await this.customersRepository.findByEmail(email);
 
@@ -44,7 +42,7 @@ export default class CreateUserService {
       password: hashedPassword,
       city,
       state,
-      avatar,
+      avatar: "",
       paid: false,
     });
 
