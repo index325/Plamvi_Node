@@ -76,7 +76,7 @@ describe('UpdateProduct', () => {
     });
 
     const product = await createProduct.execute({
-      customer_id: 'another-product-id',
+      customer_id: 'fake-customer-id',
       name: 'Churrasqueira de controle remoto',
       description: 'Ta pegando fogo, bicho',
       image_url: 'avatar_url',

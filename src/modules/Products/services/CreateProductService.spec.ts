@@ -43,7 +43,7 @@ describe('CreateProduct', () => {
 
     await expect(
       createProduct.execute({
-        customer_id: 'fake-customer-id2',
+        customer_id: 'fake-customer-id',
         name: 'Churrasqueira de controle remoto',
         description: 'Ta pegando fogo, bicho',
         image_url: 'avatar_url',

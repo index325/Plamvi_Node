@@ -51,8 +51,6 @@ import {
         case 's3':
           return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.avatar}`;
         default:
-          console.log(uploadConfig.driver)
-          console.log(process.env.STORAGE_PROVIDER)
           return null;
       }
     }

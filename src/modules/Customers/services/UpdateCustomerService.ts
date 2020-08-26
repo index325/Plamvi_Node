@@ -32,9 +32,6 @@ export default class UpdateCustomerService {
       throw new AppError("E-mail já cadastrado");
     }
 
-    console.log(id)
-    console.log(foundCustomer?.id)
-
     const customer = await this.customersRepository.findById(id);
 
     if (!customer) {

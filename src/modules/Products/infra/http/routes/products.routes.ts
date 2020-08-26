@@ -15,7 +15,7 @@ productsRouter.post(
   productsController.create
 );
 
-productsRouter.put("/", ensureAuthenticatedCustomer, productsController.update);
+productsRouter.put("/:product_id", ensureAuthenticatedCustomer, productsController.update);
 
 productsRouter.get("/detail/:product_id", productsController.detail);
 

@@ -8,8 +8,7 @@ import UpdateProductService from "@modules/Products/services/UpdateProductServic
 
 export default class ProductsController {
   public async create(request: Request, response: Response): Promise<Response> {
-
-    const {id} = request.customer;
+    const { id } = request.customer;
 
     const {
       name,
@@ -36,8 +35,9 @@ export default class ProductsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
+    const { product_id } = request.params;
+    
     const {
-      product_id,
       name,
       sku,
       image_url,

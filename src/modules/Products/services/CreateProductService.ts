@@ -29,8 +29,8 @@ export default class CreateProductService {
     description,
     short_description,
   }: IRequest): Promise<Product> {
-    const productAlreadyExists = await this.productsRepository.verifyIfSKUAlreadyExists(
-      sku
+    const productAlreadyExists = await this.productsRepository.verifyIfSKUAlreadyExistsWithoutId(
+        sku,
     );
 
     if (productAlreadyExists) {
