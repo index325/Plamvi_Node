@@ -4,7 +4,7 @@ import IFindByDescriptionAndCustomerIdDTO from "@modules/DeliveryTypes/dtos/IFin
 
 export default interface IDeliveryTypeRepository {
   create(data: ICreateDeliveryTypeDTO): Promise<DeliveryType>;
-  save(deliveryType: DeliveryType): Promise<DeliveryType | undefined>;
+  save(deliveryType: DeliveryType): Promise<DeliveryType>;
   findById(id: string): Promise<DeliveryType | undefined>;
   findAllByCustomer(customer_id: string): Promise<DeliveryType[] | undefined>;
   deleteById(id: string): Promise<void>;

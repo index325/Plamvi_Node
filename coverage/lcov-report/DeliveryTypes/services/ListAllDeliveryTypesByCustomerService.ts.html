@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for Orders/services/UpdateFeeService.ts</title>
+    <title>Code coverage report for DeliveryTypes/services/ListAllDeliveryTypesByCustomerService.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">Orders/services</a> UpdateFeeService.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">DeliveryTypes/services</a> ListAllDeliveryTypesByCustomerService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -79,28 +79,10 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -116,44 +98,29 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Cart from "@modules/Carts/infra/typeorm/entities/Cart";
-import Order from "@modules/Orders/infra/typeorm/entities/Order";
-import AppError from "@shared/errors/AppError";
-import ICartRepository from "@modules/Carts/repositories/ICartsRepository";
-import ICartItemsRepository from "@modules/Carts/repositories/ICartItemsRepository";
-import IOrderRepository from "@modules/Orders/repositories/IOrdersRepository";
-import IOrderProductRepository from "@modules/Orders/repositories/IOrderProductsRepository";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import DeliveryType from "../infra/typeorm/entities/DeliveryType";
 &nbsp;
+import IDeliveryTypeRepository from "../repositories/IDeliveryTypeRepository";
 import { injectable, inject } from "tsyringe";
 &nbsp;
 interface IRequest {
-  order_id: string;
-  fee: number;
-  daysToDeliver: number;
+  customer_id: string;
 }
 &nbsp;
 @injectable()
-export default class UpdateFeeService {
+export default class ListAllDeliveryTypesByCustomerService {
   constructor(
-    @inject("OrdersRepository")
-    private ordersRepository: IOrderRepository
+    @inject("DeliveryTypeRepository")
+    private deliveryTypeRepository: IDeliveryTypeRepository
   ) {}
 &nbsp;
-  public async execute(data: IRequest): Promise&lt;Order | undefined&gt; {
-    const order = await this.ordersRepository.updateFee({
-      order_id: data.order_id,
-      fee: data.fee,
-      daysToDeliver: data.daysToDeliver,
-    });
-&nbsp;
-    return order;
+  public async execute({
+    customer_id,
+  }: IRequest): Promise&lt;DeliveryType[] | undefined&gt; {
+    return await this.deliveryTypeRepository.findAllByCustomer(customer_id);
   }
 }
 &nbsp;</pre></td></tr></table></pre>

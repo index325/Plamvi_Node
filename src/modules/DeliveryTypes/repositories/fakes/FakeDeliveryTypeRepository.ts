@@ -6,7 +6,7 @@ import ICreateDeliveryTypeDTO from "@modules/DeliveryTypes/dtos/ICreateDeliveryT
 import IFindByDescriptionAndCustomerIdDTO from "@modules/DeliveryTypes/dtos/IFindByDescriptionAndCustomerIdDTO";
 
 export default class DeliveryTypeRepository implements IDeliveryTypeRepository {
-  private deliveryTypes: DeliveryType[] = [];
+  public deliveryTypes: DeliveryType[] = []; // deveria ser private, só que está bugando no teste de delete, ele não entende quando está vazio
 
   public async create(data: ICreateDeliveryTypeDTO): Promise<DeliveryType> {
     const deliveryType = new DeliveryType();
@@ -35,7 +35,13 @@ export default class DeliveryTypeRepository implements IDeliveryTypeRepository {
   public async findAllByCustomer(
     customer_id: string
   ): Promise<DeliveryType[] | undefined> {
-    return this.deliveryTypes.filter((dt) => dt.customer_id === customer_id);
+    let deliveryTypesFiltered = [];
+
+    deliveryTypesFiltered = this.deliveryTypes.filter(
+      (dt) => dt.customer_id === customer_id
+    );
+
+    return deliveryTypesFiltered;
   }
   public async deleteById(id: string): Promise<void> {
     const findIndex = this.deliveryTypes.findIndex((dt) => dt.id === id);
@@ -45,7 +51,7 @@ export default class DeliveryTypeRepository implements IDeliveryTypeRepository {
 
   public async findByDescriptionAndCustomerId({
     customer_id,
-    description
+    description,
   }: IFindByDescriptionAndCustomerIdDTO): Promise<DeliveryType | undefined> {
     const findIndex = this.deliveryTypes.find(
       (dt) => dt.customer_id === customer_id && dt.description === description
