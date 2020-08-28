@@ -35,6 +35,12 @@ export default class UpdateDeliveryTypeService {
       throw new AppError("Este tipo de entrega não foi encontrado");
     }
 
+    if (deliveryType.customer_id !== customer_id) {
+      throw new AppError(
+        "Este tipo de entrega não pertence a este estabelecimento"
+      );
+    }
+
     deliveryType.description = description;
 
     return await this.deliveryTypeRepository.save(deliveryType);

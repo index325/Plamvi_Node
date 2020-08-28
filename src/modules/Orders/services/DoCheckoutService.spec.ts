@@ -1,39 +1,68 @@
-import FakeOrdersRepository from '../repositories/fakes/FakeOrdersRepository';
-import FakeOrderProductsRepository from '../repositories/fakes/FakeOrderProductsRepository';
-import FakeCartsRepository from '@modules/Carts/repositories/fake/FakeCartsRepository';
-import FakeCartItemsRepository from '@modules/Carts/repositories/fake/FakeCartItemsRepository';
+import FakeOrdersRepository from "../repositories/fakes/FakeOrdersRepository";
+import FakeOrderProductsRepository from "../repositories/fakes/FakeOrderProductsRepository";
+import FakeCartsRepository from "@modules/Carts/repositories/fake/FakeCartsRepository";
+import FakeCartItemsRepository from "@modules/Carts/repositories/fake/FakeCartItemsRepository";
+import FakeProductsRepository from "@modules/Products/repositories/fakes/FakeProductsRepository";
 
-import DoCheckoutService from './DoCheckoutService';
+import DoCheckoutService from "./DoCheckoutService";
+import AddToCartService from "@modules/Carts/services/AddToCartService";
+import CreateProductService from "@modules/Products/services/CreateProductService";
 
-import AppError from '@shared/errors/AppError';
+import AppError from "@shared/errors/AppError";
 
 let fakeOrdersRepository: FakeOrdersRepository;
 let fakeOrderProductsRepository: FakeOrderProductsRepository;
 let fakeCartsRepository: FakeCartsRepository;
 let fakeCartItemsRepository: FakeCartItemsRepository;
+let fakeProductsRepository: FakeProductsRepository;
 
 let doCheckoutService: DoCheckoutService;
+let addToCart: AddToCartService;
+let createProduct: CreateProductService;
 
-
-describe('DoCheckout', () => {
+describe("DoCheckout", () => {
   beforeEach(() => {
     fakeOrdersRepository = new FakeOrdersRepository();
     fakeOrderProductsRepository = new FakeOrderProductsRepository();
     fakeCartsRepository = new FakeCartsRepository();
     fakeCartItemsRepository = new FakeCartItemsRepository();
+    fakeProductsRepository = new FakeProductsRepository();
 
     doCheckoutService = new DoCheckoutService(
       fakeCartsRepository,
       fakeCartItemsRepository,
       fakeOrdersRepository,
-      fakeOrderProductsRepository,
+      fakeOrderProductsRepository
     );
+
+    addToCart = new AddToCartService(
+      fakeCartsRepository,
+      fakeCartItemsRepository
+    );
+
+    createProduct = new CreateProductService(fakeProductsRepository);
   });
 
-  it('should be able to checkout an order', async () => {
+  it("should be able to checkout an order", async () => {
     const cart = await fakeCartsRepository.create({
       opened: true,
-      user_id: 'fake-user-id',
+      user_id: "fake-user-id",
+    });
+
+    const product = await createProduct.execute({
+      name: "fake-product",
+      sku: "fake-product-sku",
+      customer_id: "fake-customer-",
+      price: 10,
+      description: "fake-description",
+      short_description: "fake-short-description",
+      image_url: "",
+    });
+
+    await addToCart.execute({
+      user_id: cart.user_id,
+      quantity: 1,
+      product_id: product.id,
     });
 
     const order = await doCheckoutService.execute({
@@ -43,10 +72,10 @@ describe('DoCheckout', () => {
     expect(order?.total).toBe(0);
   });
 
-  it('should not be able to checkout an order with a closed cart', async () => {
+  it("should not be able to checkout an order with a closed cart", async () => {
     const cart = await fakeCartsRepository.create({
       opened: false,
-      user_id: 'fake-user-id',
+      user_id: "fake-user-id",
     });
 
     await expect(
@@ -56,11 +85,11 @@ describe('DoCheckout', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to checkout an order without cart', async () => {
+  it("should not be able to checkout an order without cart", async () => {
     await expect(
       doCheckoutService.execute({
-        user_id: 'inexistent-cart-id',
+        user_id: "inexistent-cart-id",
       })
     ).rejects.toBeInstanceOf(AppError);
   });
-})
+});

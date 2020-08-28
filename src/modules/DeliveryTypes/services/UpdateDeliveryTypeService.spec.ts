@@ -71,4 +71,24 @@ describe("UpdateDeliveryType", () => {
       })
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it("should not be able to update a delivery type that pertences to another customer", async () => {
+    const deliveryType1 = await createDeliveryType.execute({
+      description: "description-delivery-1",
+      customer_id: uuid(),
+    });
+
+    const deliveryType2 = await createDeliveryType.execute({
+      description: "description-delivery-2",
+      customer_id: uuid(),
+    });
+
+    await expect(
+      updateDeliveryType.execute({
+        id: deliveryType1.id,
+        description: "description-delivery-3",
+        customer_id: deliveryType2.customer_id,
+      })
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
