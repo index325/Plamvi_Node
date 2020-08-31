@@ -40,7 +40,7 @@ class CartsRepository implements ICartsRepository {
   }
 
   public async closeCart(cart_id: string): Promise<void> {
-    await this.ormRepository.delete(cart_id);
+    await this.ormRepository.update(cart_id, { opened: false });
   }
 }
 
