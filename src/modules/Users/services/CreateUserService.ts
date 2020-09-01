@@ -44,7 +44,7 @@ export default class CreateUserService {
       password: hashedPassword,
       city,
       state,
-      avatar,
+      avatar: "",
     });
 
     return user;

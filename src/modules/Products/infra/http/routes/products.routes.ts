@@ -21,7 +21,7 @@ productsRouter.get("/detail/:product_id", productsController.detail);
 
 productsRouter.get(
   "/list_by_customer/:customer_id",
-  ensureAuthenticatedUser,
+  // ensureAuthenticatedUser,
   productsController.listByCustomerId
 );
 

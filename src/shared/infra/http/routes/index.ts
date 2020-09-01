@@ -1,5 +1,6 @@
 import { Router } from "express";
 import cartsRouter from "@modules/Carts/infra/http/routes/cart.routes";
+import cartsItemsRouter from "@modules/Carts/infra/http/routes/cartItems.routes";
 import customerRouter from "@modules/Customers/infra/http/routes/customer.routes";
 import customerSessionRouter from "@modules/Customers/infra/http/routes/sessions.routes";
 import deliveryRouter from "@modules/DeliveryTypes/infra/http/routes/deliveryTypes.routes";
@@ -17,6 +18,8 @@ import usersSessionRouter from "@modules/Users/infra/http/routes/sessions.routes
 const routes = Router();
 
 routes.use("/carts", cartsRouter);
+routes.use("/carts", cartsItemsRouter);
+
 routes.use("/customers", customerRouter);
 routes.use("/customers/sessions", customerSessionRouter);
 routes.use("/customers/password", passwordCustomerRouter);
