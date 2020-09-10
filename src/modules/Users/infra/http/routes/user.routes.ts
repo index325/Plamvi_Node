@@ -14,6 +14,8 @@ usersRouter.post("/", usersController.create);
 
 usersRouter.put("/", ensureAuthenticated, usersController.update);
 
+usersRouter.get("/", ensureAuthenticated, usersController.detail);
+
 usersRouter.put(
   "/update_avatar",
   ensureAuthenticated,

@@ -60,15 +60,15 @@ export default class UsersController {
     return response.json(classToClass(user));
   }
 
-  public async findById(
+  public async detail(
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { user_id } = request.params;
+    const { id } = request.user;
 
     const createUser = container.resolve(FindUserByIdService);
 
-    const user = await createUser.execute(user_id);
+    const user = await createUser.execute(id);
 
     return response.json(classToClass(user));
   }
