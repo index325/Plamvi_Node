@@ -8,6 +8,8 @@ const cartItemController = new CartItemController();
 
 cartItemsRouter.use(ensureAuthenticated);
 
-cartItemsRouter.post("/add_to_cart", cartItemController.create);
+cartItemsRouter.post("/create", cartItemController.create);
+cartItemsRouter.delete("/delete/:cart_item_id", cartItemController.delete);
+cartItemsRouter.put("/update/:cart_item_id", cartItemController.update);
 
 export default cartItemsRouter;

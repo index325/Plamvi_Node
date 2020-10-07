@@ -3,6 +3,10 @@ import AppError from "@shared/errors/AppError";
 import ICartRepository from "../repositories/ICartsRepository";
 import { injectable, inject } from "tsyringe";
 
+interface IRequest {
+  user_id: string;
+  customer_id: string;
+}
 
 @injectable()
 export default class VerifyCartService {
@@ -11,18 +15,23 @@ export default class VerifyCartService {
     private cartsRepository: ICartRepository
   ) {}
 
-  public async execute(user_id: string): Promise<Cart> {
-      let cart = await this.cartsRepository.findOpenedCartByUser(user_id);
+  public async execute({ user_id, customer_id }: IRequest): Promise<Cart> {
+    let cart = await this.cartsRepository.findOpenedCartByUserAndCustomer({
+      user_id,
+      customer_id,
+    });
 
-      if (!cart) {
-        cart = await this.cartsRepository.create({
-          user_id,
-          opened: true,
-        });
+    if (!cart) {
+      cart = await this.cartsRepository.create({
+        user_id,
+        opened: true,
+        customer_id,
+      });
+    }
 
-        return cart;
-      }
-
-      return cart;
+    return (await this.cartsRepository.findOpenedCartByUserAndCustomer({
+      user_id,
+      customer_id,
+    })) as Cart;
   }
 }

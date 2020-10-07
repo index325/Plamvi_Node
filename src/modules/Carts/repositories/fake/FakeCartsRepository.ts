@@ -1,6 +1,7 @@
 import ICartsRepository from "@modules/Carts/repositories/ICartsRepository";
 import Cart from "../../infra/typeorm/entities/Cart";
 import ICreateCartDTO from "@modules/Carts/dtos/ICreateCartDTO";
+import IFindOpenedCartByUserAndCustomerDTO from "@modules/Carts/dtos/IFindOpenedCartByUserAndCustomerDTO";
 
 class FakeCartsRepository implements ICartsRepository {
   private carts: Cart[] = [];
@@ -8,7 +9,7 @@ class FakeCartsRepository implements ICartsRepository {
   public async findOpenedCartByUser(
     user_id: string
   ): Promise<Cart | undefined> {
-    const cart = await this.carts.find(item => {
+    const cart = await this.carts.find((item) => {
       return item.user_id === user_id && item.opened;
     });
 
@@ -18,7 +19,7 @@ class FakeCartsRepository implements ICartsRepository {
   public async findClosedCartByUser(
     user_id: string
   ): Promise<Cart | undefined> {
-    const cart = await this.carts.find(item => {
+    const cart = await this.carts.find((item) => {
       return item.user_id === user_id && !item.opened;
     });
 
@@ -37,7 +38,20 @@ class FakeCartsRepository implements ICartsRepository {
     return cart;
   }
 
-  public async closeCart(cart_id: string): Promise<void> {
+  public async closeCart(cart_id: string): Promise<void> {}
+
+  public async findOpenedCartByUserAndCustomer(
+    data: IFindOpenedCartByUserAndCustomerDTO
+  ): Promise<Cart | undefined> {
+    const cart = await this.carts.find((item) => {
+      return (
+        item.user_id === data.user_id &&
+        !item.opened &&
+        item.customer_id === data.customer_id
+      );
+    });
+
+    return cart;
   }
 }
 

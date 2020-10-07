@@ -12,6 +12,7 @@ import {
 
 import User from "@modules/Users/infra/typeorm/entities/User";
 import CartItem from "./CartItem";
+import Customer from "@modules/Customers/infra/typeorm/entities/Customer";
 
 @Entity("carts")
 class Cart {
@@ -34,6 +35,13 @@ class Cart {
     { eager: true }
   )
   cart_item: CartItem[];
+
+  @Column()
+  customer_id: string;
+
+  @ManyToOne(() => Customer, { eager: true })
+  @JoinColumn({ name: "customer_id" })
+  customer: Customer;
 
   @CreateDateColumn()
   created_at: Date;

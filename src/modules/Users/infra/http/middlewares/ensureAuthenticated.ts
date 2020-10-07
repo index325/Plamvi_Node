@@ -9,7 +9,11 @@ interface TokenPayload {
   sub: string;
 }
 
-export default async (request: Request, response: Response, next: NextFunction) => {
+export default async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {

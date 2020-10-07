@@ -1,6 +1,5 @@
-import User from '@modules/Users/infra/typeorm/entities/User'
-
-export default interface ICreateCartDTO{
-    opened: boolean;
-    user_id: string;
+export default interface ICreateCartDTO {
+  opened: boolean;
+  user_id: string;
+  customer_id: string;
 }

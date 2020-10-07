@@ -6,6 +6,7 @@ import CartItem from "../entities/CartItem";
 import IDeleteCartItemsDTO from "@modules/Carts/dtos/IDeleteCartItemsDTO";
 import IVerifyIfProductAlreadyExistsOnCartItemsDTO from "@modules/Carts/dtos/IVerifyIfProductAlreadyExistsOnCartItemsDTO";
 import IIncrementProductQuantityDTO from "@modules/Carts/dtos/IIncrementProductQuantityDTO";
+import IUpdateProductQuantityDTO from "@modules/Carts/dtos/IUpdateProductQuantityDTO";
 
 class CartItemsRepository implements ICartItemsRepository {
   private ormRepository: Repository<CartItem>;
@@ -52,6 +53,13 @@ class CartItemsRepository implements ICartItemsRepository {
       "quantity",
       quantity
     );
+  }
+
+  public async updateProductQuantity({
+    cart_item_id,
+    quantity,
+  }: IUpdateProductQuantityDTO): Promise<void> {
+    await this.ormRepository.update(cart_item_id, { quantity });
   }
 }
 

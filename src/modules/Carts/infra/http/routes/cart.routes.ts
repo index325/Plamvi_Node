@@ -8,6 +8,6 @@ const cartsController = new CartController();
 
 cartsRouter.use(ensureAuthenticated);
 
-cartsRouter.get("/verify", cartsController.verifyCart);
+cartsRouter.post("/verify", cartsController.verifyCart);
 
 export default cartsRouter;

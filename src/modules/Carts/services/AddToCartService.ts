@@ -38,12 +38,12 @@ export default class AddToCartService {
     );
 
     if (productAlreadyExistsOnCart) {
-      this.cartItemsRepository.incrementProductQuantity({
+      await this.cartItemsRepository.incrementProductQuantity({
         quantity,
         cart_item_id: productAlreadyExistsOnCart.id,
       });
     } else {
-      this.cartItemsRepository.create({
+      await this.cartItemsRepository.create({
         quantity,
         cart_id: cart.id,
         product_id,

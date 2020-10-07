@@ -2,16 +2,16 @@ import AppError from "@shared/errors/AppError";
 import ICartItemRepository from "../repositories/ICartItemsRepository";
 import { injectable, inject } from "tsyringe";
 import Cart from "../infra/typeorm/entities/Cart";
-import { String } from "aws-sdk/clients/cloudsearch";
 import ICartsRepository from "../repositories/ICartsRepository";
 
 interface IRequest {
+  user_id: string;
   cart_item_id: string;
-  user_id: String;
+  quantity: number;
 }
 
 @injectable()
-export default class DeleteCartItemService {
+export default class UpdateCartItemService {
   constructor(
     @inject("CartItemsRepository")
     private cartItemsRepository: ICartItemRepository,
@@ -20,10 +20,14 @@ export default class DeleteCartItemService {
   ) {}
 
   public async execute({
-    cart_item_id,
     user_id,
+    cart_item_id,
+    quantity,
   }: IRequest): Promise<Cart | undefined> {
-    await this.cartItemsRepository.delete({ cart_item_id });
+    await this.cartItemsRepository.updateProductQuantity({
+      cart_item_id,
+      quantity,
+    });
 
     return await this.cartsRepository.findOpenedCartByUser(user_id);
   }

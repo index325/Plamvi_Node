@@ -18,7 +18,7 @@ import usersSessionRouter from "@modules/Users/infra/http/routes/sessions.routes
 const routes = Router();
 
 routes.use("/carts", cartsRouter);
-routes.use("/carts", cartsItemsRouter);
+routes.use("/cart_items", cartsItemsRouter);
 
 routes.use("/customers", customerRouter);
 routes.use("/customers/sessions", customerSessionRouter);

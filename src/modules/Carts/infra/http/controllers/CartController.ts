@@ -8,9 +8,12 @@ export default class CartController {
     request: Request,
     response: Response
   ): Promise<Response> {
+    const { id } = request.user;
+    const { customer_id } = request.body;
+
     const verifyCart = container.resolve(VerifyCartService);
 
-    const cart = await verifyCart.execute(request.user.id as string);
+    const cart = await verifyCart.execute({ user_id: id, customer_id });
 
     return response.json(cart);
   }

@@ -6,23 +6,26 @@ import IVerifyIfProductAlreadyExistsOnCartItemsDTO from "@modules/Carts/dtos/IVe
 import IIncrementProductQuantityDTO from "@modules/Carts/dtos/IIncrementProductQuantityDTO";
 
 import CartItem from "../../infra/typeorm/entities/CartItem";
+import IUpdateProductQuantityDTO from "@modules/Carts/dtos/IUpdateProductQuantityDTO";
 
 class FakeCartItemsRepository implements ICartItemsRepository {
   private cartItems: CartItem[] = [];
-  
+
   public async findById(cart_item_id: string): Promise<CartItem | undefined> {
-    const foundCartItem = this.cartItems.find(item => item.id === cart_item_id);
+    const foundCartItem = this.cartItems.find(
+      (item) => item.id === cart_item_id
+    );
 
     return foundCartItem;
   }
   public async create({
     cart_id,
     product_id,
-    quantity
+    quantity,
   }: ICreateCartItemsDTO): Promise<CartItem> {
     const cartItem = new CartItem();
 
-    cartItem.id = 'fake-id';
+    cartItem.id = "fake-id";
     cartItem.cart_id = cart_id;
     cartItem.product_id = product_id;
     cartItem.quantity = quantity;
@@ -33,9 +36,9 @@ class FakeCartItemsRepository implements ICartItemsRepository {
   }
 
   public async delete({ cart_item_id }: IDeleteCartItemsDTO): Promise<void> {
-    const selectedCartItem = this.cartItems.findIndex(item => (
-      item.id === cart_item_id
-    ));
+    const selectedCartItem = this.cartItems.findIndex(
+      (item) => item.id === cart_item_id
+    );
 
     this.cartItems.splice(selectedCartItem, 1);
   }
@@ -46,10 +49,9 @@ class FakeCartItemsRepository implements ICartItemsRepository {
   }: IVerifyIfProductAlreadyExistsOnCartItemsDTO): Promise<
     CartItem | undefined
   > {
-    const foundProduct = this.cartItems.find(item => (
-      (item.cart_id === cart_id) &&
-      (item.product_id === product_id)
-    ));
+    const foundProduct = this.cartItems.find(
+      (item) => item.cart_id === cart_id && item.product_id === product_id
+    );
 
     return foundProduct;
   }
@@ -58,12 +60,30 @@ class FakeCartItemsRepository implements ICartItemsRepository {
     quantity,
     cart_item_id,
   }: IIncrementProductQuantityDTO): Promise<void> {
-    const newCartItems = this.cartItems.map(item => {
+    const newCartItems = this.cartItems.map((item) => {
       if (item.id === cart_item_id) {
         return {
           ...item,
           quantity: item.quantity + quantity,
-        }
+        };
+      }
+
+      return item;
+    });
+
+    this.cartItems = newCartItems;
+  }
+
+  public async updateProductQuantity({
+    cart_item_id,
+    quantity,
+  }: IUpdateProductQuantityDTO): Promise<void> {
+    const newCartItems = this.cartItems.map((item) => {
+      if (item.id === cart_item_id) {
+        return {
+          ...item,
+          quantity,
+        };
       }
 
       return item;
