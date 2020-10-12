@@ -12,5 +12,10 @@ customersRouter.put(
   ensureAuthenticatedCustomer,
   customersController.update
 );
+customersRouter.get(
+  "/list_my_products",
+  ensureAuthenticatedCustomer,
+  customersController.listMyProducts
+);
 
 export default customersRouter;

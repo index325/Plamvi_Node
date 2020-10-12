@@ -6,7 +6,7 @@ import FindUserByIdService from "@modules/Users/services/FindUserByIdService";
 import UpdateUserService from "@modules/Users/services/UpdateUserService";
 import UpdateUserAvatarService from "@modules/Users/services/UpdateUserAvatarService";
 import ListAllAvailableCustomersService from "@modules/Users/services/ListAllAvailableCustomersService";
-import {classToClass} from "class-transformer";
+import { classToClass } from "class-transformer";
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -60,10 +60,7 @@ export default class UsersController {
     return response.json(classToClass(user));
   }
 
-  public async detail(
-    request: Request,
-    response: Response
-  ): Promise<Response> {
+  public async detail(request: Request, response: Response): Promise<Response> {
     const { id } = request.user;
 
     const createUser = container.resolve(FindUserByIdService);

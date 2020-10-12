@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
+import { classToClass } from "class-transformer";
 
 import CreateProductService from "@modules/Products/services/CreateProductService";
 import ListProductsByCustomerService from "@modules/Products/services/ListProductsByCustomerService";
@@ -10,38 +11,31 @@ export default class ProductsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { id } = request.customer;
 
-    const {
-      name,
-      sku,
-      image_url,
-      price,
-      description,
-      short_description,
-    } = request.body;
+    const { name, sku, price, description, short_description } = request.body;
 
     const createProducts = container.resolve(CreateProductService);
 
     const product = await createProducts.execute({
       name,
       sku,
-      image_url,
+      file: request.file.filename,
       customer_id: id,
       price,
       description,
       short_description,
     });
 
-    return response.json(product);
+    return response.json(classToClass(product));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { product_id } = request.params;
-    
+    const { id } = request.customer;
+
     const {
       name,
       sku,
       image_url,
-      customer_id,
       price,
       description,
       short_description,
@@ -54,13 +48,13 @@ export default class ProductsController {
       name,
       sku,
       image_url,
-      customer_id,
+      customer_id: id,
       price,
       description,
       short_description,
     });
 
-    return response.json(product);
+    return response.json(classToClass(product));
   }
 
   public async detail(request: Request, response: Response): Promise<Response> {
@@ -70,7 +64,7 @@ export default class ProductsController {
 
     const product = await productDetail.execute(product_id);
 
-    return response.json(product);
+    return response.json(classToClass(product));
   }
 
   public async listByCustomerId(
@@ -83,6 +77,6 @@ export default class ProductsController {
 
     const products = await listProducts.execute(customer_id);
 
-    return response.json(products);
+    return response.json(classToClass(products));
   }
 }

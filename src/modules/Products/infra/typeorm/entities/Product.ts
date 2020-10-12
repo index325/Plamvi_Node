@@ -1,51 +1,68 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne,
-    JoinColumn,
-  } from "typeorm";
-  
-  import Customer from "@modules/Customers/infra/typeorm/entities/Customer";
-  
-  @Entity("products")
-  class Product {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 
-    @Column()
-    name: string;
+import Customer from "@modules/Customers/infra/typeorm/entities/Customer";
+import { Expose } from "class-transformer";
 
-    @Column()
-    image_url: string;
+import uploadConfig from "@config/upload";
 
-    @Column()
-    price: number;
+@Entity("products")
+class Product {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    sku: string;
+  @Column()
+  name: string;
 
-    @Column()
-    short_description: string;
+  @Column()
+  image: string;
 
-    @Column()
-    description: string;
+  @Column()
+  price: number;
 
-    @Column()
-    customer_id: string;
-  
-    @ManyToOne(() => Customer)
-    @JoinColumn({ name: "customer_id" })
-    customer: Customer;
-  
-    @CreateDateColumn()
-    created_at: Date;
-  
-    @UpdateDateColumn()
-    updated_at: Date;
+  @Column()
+  sku: string;
+
+  @Column()
+  short_description: string;
+
+  @Column()
+  description: string;
+
+  @Column()
+  customer_id: string;
+
+  @ManyToOne(() => Customer)
+  @JoinColumn({ name: "customer_id" })
+  customer: Customer;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @Expose({ name: "image_url" })
+  getImageUrl(): string | null {
+    if (!this.image) {
+      return null;
+    }
+    switch (uploadConfig.driver) {
+      case "disk":
+        return `${process.env.APP_API_URL}/files/${this.image}`;
+      case "s3":
+        return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.image}`;
+      default:
+        return null;
+    }
   }
-  
-  export default Product;
-  
+}
+
+export default Product;
