@@ -13,6 +13,7 @@ describe("DeleteCartItems", () => {
     );
 
     const cart = await fakeCartsRepository.create({
+      customer_id: "fake-customer-id",
       opened: true,
       user_id: "fake-user-id",
     });

@@ -3,12 +3,13 @@ import AppError from "@shared/errors/AppError";
 import IProductsRepository from "../repositories/IProductsRepository";
 import { injectable, inject } from "tsyringe";
 import { id } from "date-fns/esm/locale";
+import IStorageProvider from "@shared/container/providers/StorageProvider/models/IStorageProvider";
 
 interface IRequest {
   name: string;
   product_id: string;
   sku: string;
-  image_url: string;
+  file: string;
   customer_id: string;
   price: number;
   description: string;
@@ -19,14 +20,16 @@ interface IRequest {
 export default class UpdateProductService {
   constructor(
     @inject("ProductsRepository")
-    private productsRepository: IProductsRepository
+    private productsRepository: IProductsRepository,
+    @inject("StorageProvider")
+    private storageProvider: IStorageProvider
   ) {}
 
   public async execute({
     product_id,
     name,
     sku,
-    image_url,
+    file,
     customer_id,
     price,
     description,
@@ -49,11 +52,13 @@ export default class UpdateProductService {
       throw new AppError("Já existe um produto cadastrado com este SKU", 400);
     }
 
+    const image = await this.storageProvider.saveFile(file);
+
     const product = await this.productsRepository.update(
       {
         name,
         sku,
-        image_url,
+        image,
         customer_id,
         price,
         description,

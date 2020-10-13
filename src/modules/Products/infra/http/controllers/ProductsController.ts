@@ -32,14 +32,7 @@ export default class ProductsController {
     const { product_id } = request.params;
     const { id } = request.customer;
 
-    const {
-      name,
-      sku,
-      image_url,
-      price,
-      description,
-      short_description,
-    } = request.body;
+    const { name, sku, price, description, short_description } = request.body;
 
     const productUpdate = container.resolve(UpdateProductService);
 
@@ -47,7 +40,7 @@ export default class ProductsController {
       product_id,
       name,
       sku,
-      image_url,
+      file: request.file.filename,
       customer_id: id,
       price,
       description,

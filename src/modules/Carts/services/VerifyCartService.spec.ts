@@ -32,6 +32,6 @@ describe("VerifyCart", () => {
       user_id: "fake-id",
     });
 
-    expect(createdCart?.user_id).toBe("fake-id");
+    expect(createdCart.user_id).toBe("fake-id");
   });
 });

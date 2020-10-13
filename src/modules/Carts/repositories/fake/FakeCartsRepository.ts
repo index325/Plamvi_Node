@@ -31,6 +31,7 @@ class FakeCartsRepository implements ICartsRepository {
 
     cart.user_id = user_id;
     cart.opened = opened;
+    cart.customer_id = "fake-customer-id";
     cart.cart_item = [];
 
     this.carts.push(cart);
@@ -46,7 +47,7 @@ class FakeCartsRepository implements ICartsRepository {
     const cart = await this.carts.find((item) => {
       return (
         item.user_id === data.user_id &&
-        !item.opened &&
+        item.opened &&
         item.customer_id === data.customer_id
       );
     });

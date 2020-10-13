@@ -1,4 +1,4 @@
-import {uuid} from 'uuidv4'
+import { uuid } from "uuidv4";
 
 import IProductsRepository from "@modules/Products/repositories/IProductsRepository";
 import ICreateProductDTO from "@modules/Products/dtos/ICreateProductDTO";
@@ -6,7 +6,7 @@ import IUpdateProductDTO from "@modules/Products/dtos/IUpdateProductDTO";
 import IVerifyIfSKUAlreadyExistsDTO from "@modules/Products/dtos/IVerifyIfSKUAlreadyExistsDTO";
 
 import Product from "../../infra/typeorm/entities/Product";
-import Customer from '@modules/Customers/infra/typeorm/entities/Customer';
+import Customer from "@modules/Customers/infra/typeorm/entities/Customer";
 
 class ProductsRepository implements IProductsRepository {
   private products: Product[] = [];
@@ -14,11 +14,11 @@ class ProductsRepository implements IProductsRepository {
   public async create({
     customer_id,
     description,
-    image_url,
+    image,
     name,
     price,
     short_description,
-    sku
+    sku,
   }: ICreateProductDTO): Promise<Product> {
     const product = new Product();
 
@@ -28,26 +28,30 @@ class ProductsRepository implements IProductsRepository {
     product.sku = sku;
     product.price = price;
     product.description = description;
-    product.image_url = image_url;
+    product.image = image;
     product.name = name;
     product.short_description = short_description;
+    product.getImageUrl = () => "fake-image-url";
 
     this.products.push(product);
 
     return product;
   }
 
-  public async update({
-    customer_id,
-    description,
-    image_url,
-    name,
-    price,
-    short_description,
-    sku
-  }: IUpdateProductDTO, product_id: string): Promise<Product> {
+  public async update(
+    {
+      customer_id,
+      description,
+      image,
+      name,
+      price,
+      short_description,
+      sku,
+    }: IUpdateProductDTO,
+    product_id: string
+  ): Promise<Product> {
     const updatedProductIndex = this.products.findIndex(
-      item => item.id === product_id
+      (item) => item.id === product_id
     );
 
     const updatedProducts = this.products.map((item) => {
@@ -55,16 +59,17 @@ class ProductsRepository implements IProductsRepository {
         return {
           ...item,
           description,
-          image_url,
+          image,
           name,
           price,
           short_description,
-          sku
-        }
+          sku,
+          getImageUrl: () => "fake-image-url",
+        };
       }
 
       return item;
-    });
+    }) as Product[];
 
     this.products = updatedProducts;
 
@@ -73,22 +78,22 @@ class ProductsRepository implements IProductsRepository {
   public async listAllProductsByCustomer(
     customer_id: string
   ): Promise<Product[]> {
-    const foundProducts = this.products.filter(item => item.customer.id === customer_id);
+    const foundProducts = this.products.filter(
+      (item) => item.customer.id === customer_id
+    );
 
     return foundProducts;
   }
   public async findProductById(
     product_id: string
   ): Promise<Product | undefined> {
-    const foundProduct = this.products.find(item => item.id === product_id);
+    const foundProduct = this.products.find((item) => item.id === product_id);
 
     return foundProduct;
   }
 
-  public async findBySku(
-    sku: string
-  ): Promise<Product | undefined> {
-    const foundProduct = this.products.find(item => item.sku === sku);
+  public async findBySku(sku: string): Promise<Product | undefined> {
+    const foundProduct = this.products.find((item) => item.sku === sku);
 
     return foundProduct;
   }
@@ -97,13 +102,17 @@ class ProductsRepository implements IProductsRepository {
     sku,
     id,
   }: IVerifyIfSKUAlreadyExistsDTO): Promise<boolean> {
-    const foundProduct = this.products.find(item => item.sku === sku && item.id !== id);
+    const foundProduct = this.products.find(
+      (item) => item.sku === sku && item.id !== id
+    );
 
     return !!foundProduct;
   }
 
-  public async verifyIfSKUAlreadyExistsWithoutId(sku: string): Promise<boolean> {
-    const foundProduct = this.products.find(item => item.sku === sku);
+  public async verifyIfSKUAlreadyExistsWithoutId(
+    sku: string
+  ): Promise<boolean> {
+    const foundProduct = this.products.find((item) => item.sku === sku);
 
     return !!foundProduct;
   }

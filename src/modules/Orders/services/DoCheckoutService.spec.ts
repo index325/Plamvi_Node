@@ -9,12 +9,14 @@ import AddToCartService from "@modules/Carts/services/AddToCartService";
 import CreateProductService from "@modules/Products/services/CreateProductService";
 
 import AppError from "@shared/errors/AppError";
+import FakeStorageProvider from "@shared/container/providers/StorageProvider/fakes/FakeStorageProvider";
 
 let fakeOrdersRepository: FakeOrdersRepository;
 let fakeOrderProductsRepository: FakeOrderProductsRepository;
 let fakeCartsRepository: FakeCartsRepository;
 let fakeCartItemsRepository: FakeCartItemsRepository;
 let fakeProductsRepository: FakeProductsRepository;
+let fakeStorageProvider: FakeStorageProvider;
 
 let doCheckoutService: DoCheckoutService;
 let addToCart: AddToCartService;
@@ -27,6 +29,7 @@ describe("DoCheckout", () => {
     fakeCartsRepository = new FakeCartsRepository();
     fakeCartItemsRepository = new FakeCartItemsRepository();
     fakeProductsRepository = new FakeProductsRepository();
+    fakeStorageProvider = new FakeStorageProvider();
 
     doCheckoutService = new DoCheckoutService(
       fakeCartsRepository,
@@ -40,11 +43,15 @@ describe("DoCheckout", () => {
       fakeCartItemsRepository
     );
 
-    createProduct = new CreateProductService(fakeProductsRepository);
+    createProduct = new CreateProductService(
+      fakeProductsRepository,
+      fakeStorageProvider
+    );
   });
 
   it("should be able to checkout an order", async () => {
     const cart = await fakeCartsRepository.create({
+      customer_id: "fake-customer-id",
       opened: true,
       user_id: "fake-user-id",
     });
@@ -56,7 +63,7 @@ describe("DoCheckout", () => {
       price: 10,
       description: "fake-description",
       short_description: "fake-short-description",
-      image_url: "",
+      file: "image.jpg",
     });
 
     await addToCart.execute({
@@ -76,6 +83,7 @@ describe("DoCheckout", () => {
     const cart = await fakeCartsRepository.create({
       opened: false,
       user_id: "fake-user-id",
+      customer_id: "fake-customer-id",
     });
 
     await expect(

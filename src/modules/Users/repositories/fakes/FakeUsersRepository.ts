@@ -45,6 +45,7 @@ class UsersRepository implements IUsersRepository {
       city,
       name,
       state,
+      getAvatarUrl: () => "fake-image-url",
     };
 
     if (avatar) {
@@ -65,6 +66,7 @@ class UsersRepository implements IUsersRepository {
         return {
           ...item,
           avatar: user.avatar,
+          getAvatarUrl: () => "fake-image-url",
         };
       }
 
@@ -94,9 +96,7 @@ class UsersRepository implements IUsersRepository {
       avatar: "",
       created_at: new Date(),
       updated_at: new Date(),
-      getAvatarUrl: () => {
-        return "";
-      },
+      getAvatarUrl: () => "fake-image-url",
     };
 
     if (avatar) {
