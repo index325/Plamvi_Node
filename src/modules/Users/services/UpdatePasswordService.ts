@@ -5,12 +5,9 @@ import { injectable, inject } from "tsyringe";
 import IHashProvider from "@shared/container/providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
+  oldPassword: string;
+  newPassword: string;
   user_id: string;
-  name: string;
-  password: string;
-  email: string;
-  city: string;
-  state: string;
 }
 
 @injectable()
@@ -22,21 +19,7 @@ export default class UpdateUserService {
     private hashProvider: IHashProvider
   ) {}
 
-  public async execute({
-    user_id,
-    name,
-    email,
-    city,
-    state,
-    password,
-  }: IRequest): Promise<User> {
-    const foundUser = await this.usersRepository.findByEmail(
-      email,
-    );
-
-    if (foundUser && foundUser.id !== user_id) {
-      throw new AppError("E-mail já cadastrado");
-    }
+  public async execute({ oldPassword, newPassword, user_id }: IRequest): Promise<User> {
 
     const user = await this.usersRepository.findById(user_id);
 
@@ -44,16 +27,16 @@ export default class UpdateUserService {
       throw new AppError("Usuário não encontrado");
     }
 
-    const passwordMatched = await this.hashProvider.compareHash(password, user.password);
+    const passwordMatched = await this.hashProvider.compareHash(
+      oldPassword,
+      user.password
+    );
 
     if (!passwordMatched) {
       throw new AppError("A senha atual está incorreta");
     }
 
-    user.name = name;
-    user.email = email;
-    user.city = city;
-    user.state = state;
+    user.password = await this.hashProvider.generateHash(newPassword);
 
     await this.usersRepository.update(user);
 

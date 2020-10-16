@@ -13,6 +13,7 @@ import {
 import User from "@modules/Users/infra/typeorm/entities/User";
 import CartItem from "./CartItem";
 import Customer from "@modules/Customers/infra/typeorm/entities/Customer";
+import { Expose } from "class-transformer";
 
 @Entity("carts")
 class Cart {
@@ -48,6 +49,21 @@ class Cart {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: "total" })
+  getTotal(): number {
+    if (this.cart_item) {
+      let total: number = 0;
+
+      this.cart_item.map((item) => {
+        total += item.quantity * item.product.price;
+      });
+
+      return total;
+    } else {
+      return 0;
+    }
+  }
 }
 
 export default Cart;

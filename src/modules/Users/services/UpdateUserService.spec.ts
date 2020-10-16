@@ -6,12 +6,14 @@ import FakeUsersRespository from '../repositories/fakes/FakeUsersRepository';
 import UpdateUserService from './UpdateUserService';
 
 let fakeUsersRepository: FakeUsersRespository;
+let fakeHashProvider: FakeHashProvider;
 let updateUser: UpdateUserService;
 
 describe('UpdateUserProfileService', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRespository();
-    updateUser = new UpdateUserService(fakeUsersRepository);
+    fakeHashProvider = new FakeHashProvider();
+    updateUser = new UpdateUserService(fakeUsersRepository, fakeHashProvider);
   });
 
   it('should be able to update an user data', async () => {

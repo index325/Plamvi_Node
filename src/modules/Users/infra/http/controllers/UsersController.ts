@@ -6,6 +6,8 @@ import FindUserByIdService from "@modules/Users/services/FindUserByIdService";
 import UpdateUserService from "@modules/Users/services/UpdateUserService";
 import UpdateUserAvatarService from "@modules/Users/services/UpdateUserAvatarService";
 import ListAllAvailableCustomersService from "@modules/Users/services/ListAllAvailableCustomersService";
+import UpdatePasswordService from "@modules/Users/services/UpdatePasswordService";
+
 import { classToClass } from "class-transformer";
 
 export default class UsersController {
@@ -28,7 +30,7 @@ export default class UsersController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.user;
-    const { name, email, password, city, state, avatar } = request.body;
+    const { name, email, password, city, state } = request.body;
 
     const createUser = container.resolve(UpdateUserService);
 
@@ -58,6 +60,24 @@ export default class UsersController {
     });
 
     return response.json(classToClass(user));
+  }
+
+  public async updatePassword(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.user;
+    const { old_password, new_password } = request.body;
+
+    const updatePassword = container.resolve(UpdatePasswordService);
+
+    await updatePassword.execute({
+      user_id: id,
+      oldPassword: old_password,
+      newPassword: new_password,
+    });
+
+    return response.status(204).json();
   }
 
   public async detail(request: Request, response: Response): Promise<Response> {

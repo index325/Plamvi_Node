@@ -2,10 +2,13 @@ import { Router } from "express";
 import { celebrate, Segments, Joi } from "celebrate";
 import ForgotPasswordController from "../controllers/ForgotPasswordController";
 import ResetPasswordController from "../controllers/ResetPasswordController";
+import UsersController from "../controllers/UsersController";
+import ensureAuthenticated from "../middlewares/ensureAuthenticated";
 
 const passwordRouter = Router();
 const forgotPasswordController = new ForgotPasswordController();
 const resetPasswordController = new ResetPasswordController();
+const usersController = new UsersController();
 
 passwordRouter.post(
   "/forgot",
@@ -29,5 +32,11 @@ passwordRouter.post(
   }),
   resetPasswordController.create
 );
+
+passwordRouter.put(
+  '/',
+  ensureAuthenticated,
+  usersController.updatePassword
+)
 
 export default passwordRouter;

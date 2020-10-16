@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { container } from "tsyringe";
 
 import VerifyCartService from "@modules/Carts/services/VerifyCartService";
+import { classToClass } from "class-transformer";
 
 export default class CartController {
   public async verifyCart(
@@ -15,6 +16,6 @@ export default class CartController {
 
     const cart = await verifyCart.execute({ user_id: id, customer_id });
 
-    return response.json(cart);
+    return response.json(classToClass(cart));
   }
 }

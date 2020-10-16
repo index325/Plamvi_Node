@@ -4,6 +4,7 @@ import { container } from "tsyringe";
 import AddToCartService from "@modules/Carts/services/AddToCartService";
 import DeleteCartItemService from "@modules/Carts/services/DeleteCartItemService";
 import UpdateCartItemService from "@modules/Carts/services/UpdateCartItemService";
+import { classToClass } from "class-transformer";
 
 export default class CartItemController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -18,7 +19,7 @@ export default class CartItemController {
       product_id,
     });
 
-    return response.json(cart);
+    return response.json(classToClass(cart));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
@@ -31,7 +32,7 @@ export default class CartItemController {
       cart_item_id,
     });
 
-    return response.json(cart);
+    return response.json(classToClass(cart));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -49,6 +50,6 @@ export default class CartItemController {
       user_id: id,
     });
 
-    return response.json(cart);
+    return response.json(classToClass(cart));
   }
 }
