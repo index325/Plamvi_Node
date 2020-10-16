@@ -1,11 +1,19 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var AppError = /** @class */ (function () {
-    function AppError(message, statusCode) {
-        if (statusCode === void 0) { statusCode = 400; }
-        this.message = message;
-        this.statusCode = statusCode;
-    }
-    return AppError;
-}());
-exports.default = AppError;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+class AppError {
+  constructor(message, statusCode = 400) {
+    this.message = void 0;
+    this.statusCode = void 0;
+    this.message = message;
+    this.statusCode = statusCode;
+  }
+
+}
+
+var _default = AppError;
+exports.default = _default;

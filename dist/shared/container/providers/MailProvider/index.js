@@ -1,14 +1,18 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+
+var _EtherealMailProvider = _interopRequireDefault(require("./implementations/EtherealMailProvider"));
+
+var _tsyringe = require("tsyringe");
+
+var _SESMailProvider = _interopRequireDefault(require("./implementations/SESMailProvider"));
+
+var _mail = _interopRequireDefault(require("../../../../config/mail"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const providers = {
+  ethereal: _tsyringe.container.resolve(_EtherealMailProvider.default),
+  ses: _tsyringe.container.resolve(_SESMailProvider.default)
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var EtherealMailProvider_1 = __importDefault(require("./implementations/EtherealMailProvider"));
-var tsyringe_1 = require("tsyringe");
-var SESMailProvider_1 = __importDefault(require("./implementations/SESMailProvider"));
-var mail_1 = __importDefault(require("@config/mail"));
-var providers = {
-    ethereal: tsyringe_1.container.resolve(EtherealMailProvider_1.default),
-    ses: tsyringe_1.container.resolve(SESMailProvider_1.default),
-};
-tsyringe_1.container.registerInstance("MailProvider", providers[mail_1.default.driver]);
+
+_tsyringe.container.registerInstance("MailProvider", providers[_mail.default.driver]);

@@ -1,30 +1,42 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _multer = _interopRequireDefault(require("multer"));
+
+var _path = _interopRequireDefault(require("path"));
+
+var _crypto = _interopRequireDefault(require("crypto"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const tmpFolder = _path.default.resolve(__dirname, '..', '..', 'tmp');
+
+var _default = {
+  driver: process.env.STORAGE_PROVIDER,
+  tmpFolder,
+  uploadsFolder: _path.default.resolve(tmpFolder, 'uploads'),
+  multer: {
+    storage: _multer.default.diskStorage({
+      destination: tmpFolder,
+
+      filename(request, file, callback) {
+        const hash = _crypto.default.randomBytes(10).toString('hex');
+
+        const filename = `${hash}-${file.originalname}`;
+        return callback(null, filename);
+      }
+
+    })
+  },
+  config: {
+    disk: {},
+    aws: {
+      bucket: 'index325-app-plamvi'
+    }
+  }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var multer_1 = __importDefault(require("multer"));
-var path_1 = __importDefault(require("path"));
-var crypto_1 = __importDefault(require("crypto"));
-var tmpFolder = path_1.default.resolve(__dirname, '..', '..', 'tmp');
-exports.default = {
-    driver: process.env.STORAGE_PROVIDER,
-    tmpFolder: tmpFolder,
-    uploadsFolder: path_1.default.resolve(tmpFolder, 'uploads'),
-    multer: {
-        storage: multer_1.default.diskStorage({
-            destination: tmpFolder,
-            filename: function (request, file, callback) {
-                var hash = crypto_1.default.randomBytes(10).toString('hex');
-                var filename = hash + "-" + file.originalname;
-                return callback(null, filename);
-            },
-        }),
-    },
-    config: {
-        disk: {},
-        aws: {
-            bucket: 'index325-app-plamvi',
-        },
-    },
-};
+exports.default = _default;

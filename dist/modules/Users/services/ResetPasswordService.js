@@ -1,106 +1,64 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AppError = _interopRequireDefault(require("../../../shared/errors/AppError"));
+
+var _IUsersRepository = _interopRequireDefault(require("../repositories/IUsersRepository"));
+
+var _IUserTokenRepository = _interopRequireDefault(require("../repositories/IUserTokenRepository"));
+
+var _IHashProvider = _interopRequireDefault(require("../providers/HashProvider/models/IHashProvider"));
+
+var _dateFns = require("date-fns");
+
+var _tsyringe = require("tsyringe");
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+let ResetPasswordService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (target, key) {
+  return (0, _tsyringe.inject)("UsersRepository")(target, undefined, 0);
+}, _dec3 = function (target, key) {
+  return (0, _tsyringe.inject)("UserTokensRepository")(target, undefined, 1);
+}, _dec4 = function (target, key) {
+  return (0, _tsyringe.inject)("HashProvider")(target, undefined, 2);
+}, _dec5 = Reflect.metadata("design:type", Function), _dec6 = Reflect.metadata("design:paramtypes", [typeof _IUsersRepository.default === "undefined" ? Object : _IUsersRepository.default, typeof _IUserTokenRepository.default === "undefined" ? Object : _IUserTokenRepository.default, typeof _IHashProvider.default === "undefined" ? Object : _IHashProvider.default]), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = _dec5(_class = _dec6(_class = class ResetPasswordService {
+  constructor(usersRepository, userTokenRepository, hashProvider) {
+    this.usersRepository = usersRepository;
+    this.userTokenRepository = userTokenRepository;
+    this.hashProvider = hashProvider;
+  }
+
+  async execute({
+    token,
+    password
+  }) {
+    const userToken = await this.userTokenRepository.findByToken(token);
+
+    if (!userToken) {
+      throw new _AppError.default("User token does not exists");
     }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var AppError_1 = __importDefault(require("@shared/errors/AppError"));
-var date_fns_1 = require("date-fns");
-var tsyringe_1 = require("tsyringe");
-var ResetPasswordService = /** @class */ (function () {
-    function ResetPasswordService(usersRepository, userTokenRepository, hashProvider) {
-        this.usersRepository = usersRepository;
-        this.userTokenRepository = userTokenRepository;
-        this.hashProvider = hashProvider;
+
+    const user = await this.usersRepository.findById(userToken.user_id);
+
+    if (!user) {
+      throw new _AppError.default("User does not exists");
     }
-    ResetPasswordService.prototype.execute = function (_a) {
-        var token = _a.token, password = _a.password;
-        return __awaiter(this, void 0, void 0, function () {
-            var userToken, user, tokenCreatedAt, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, this.userTokenRepository.findByToken(token)];
-                    case 1:
-                        userToken = _c.sent();
-                        if (!userToken) {
-                            throw new AppError_1.default("User token does not exists");
-                        }
-                        return [4 /*yield*/, this.usersRepository.findById(userToken.user_id)];
-                    case 2:
-                        user = _c.sent();
-                        if (!user) {
-                            throw new AppError_1.default("User does not exists");
-                        }
-                        tokenCreatedAt = userToken.created_at;
-                        if (date_fns_1.differenceInHours(Date.now(), tokenCreatedAt) > 2) {
-                            throw new AppError_1.default("Token expired");
-                        }
-                        _b = user;
-                        return [4 /*yield*/, this.hashProvider.generateHash(password)];
-                    case 3:
-                        _b.password = _c.sent();
-                        return [4 /*yield*/, this.usersRepository.save(user)];
-                    case 4:
-                        _c.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ResetPasswordService = __decorate([
-        tsyringe_1.injectable(),
-        __param(0, tsyringe_1.inject("UsersRepository")),
-        __param(1, tsyringe_1.inject("UserTokensRepository")),
-        __param(2, tsyringe_1.inject("HashProvider")),
-        __metadata("design:paramtypes", [Object, Object, Object])
-    ], ResetPasswordService);
-    return ResetPasswordService;
-}());
+
+    const tokenCreatedAt = userToken.created_at;
+
+    if ((0, _dateFns.differenceInHours)(Date.now(), tokenCreatedAt) > 2) {
+      throw new _AppError.default("Token expired");
+    }
+
+    user.password = await this.hashProvider.generateHash(password);
+    await this.usersRepository.save(user);
+  }
+
+}) || _class) || _class) || _class) || _class) || _class) || _class);
 exports.default = ResetPasswordService;

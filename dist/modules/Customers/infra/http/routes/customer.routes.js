@@ -1,14 +1,22 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var CustomersController_1 = __importDefault(require("../controllers/CustomersController"));
-var ensureAuthenticated_1 = __importDefault(require("../middlewares/ensureAuthenticated"));
-var customersRouter = express_1.Router();
-var customersController = new CustomersController_1.default();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _express = require("express");
+
+var _CustomersController = _interopRequireDefault(require("../controllers/CustomersController"));
+
+var _ensureAuthenticated = _interopRequireDefault(require("../middlewares/ensureAuthenticated"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const customersRouter = (0, _express.Router)();
+const customersController = new _CustomersController.default();
 customersRouter.post("/", customersController.create);
-customersRouter.put("/", ensureAuthenticated_1.default, customersController.update);
-customersRouter.get("/list_my_products", ensureAuthenticated_1.default, customersController.listMyProducts);
-exports.default = customersRouter;
+customersRouter.put("/", _ensureAuthenticated.default, customersController.update);
+customersRouter.get("/list_my_products", _ensureAuthenticated.default, customersController.listMyProducts);
+var _default = customersRouter;
+exports.default = _default;

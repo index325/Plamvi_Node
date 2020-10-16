@@ -1,29 +1,51 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var tsyringe_1 = require("tsyringe");
-require("@modules/Users/providers");
-require("@modules/Customers/providers");
+
+var _tsyringe = require("tsyringe");
+
+require("../../modules/Users/providers");
+
+require("../../modules/Customers/providers");
+
 require("./providers");
-var CartItemsRepository_1 = __importDefault(require("@modules/Carts/infra/typeorm/repositories/CartItemsRepository"));
-var CartsRepository_1 = __importDefault(require("@modules/Carts/infra/typeorm/repositories/CartsRepository"));
-var OrderRepository_1 = __importDefault(require("@modules/Orders/infra/typeorm/repositories/OrderRepository"));
-var OrderProductRepository_1 = __importDefault(require("@modules/Orders/infra/typeorm/repositories/OrderProductRepository"));
-var UsersRepository_1 = __importDefault(require("@modules/Users/infra/typeorm/repositories/UsersRepository"));
-var UserTokensRepository_1 = __importDefault(require("@modules/Users/infra/typeorm/repositories/UserTokensRepository"));
-var ProductsRepository_1 = __importDefault(require("@modules/Products/infra/typeorm/repositories/ProductsRepository"));
-var CustomersRepository_1 = __importDefault(require("@modules/Customers/infra/typeorm/repositories/CustomersRepository"));
-var CustomerTokensRepository_1 = __importDefault(require("@modules/Customers/infra/typeorm/repositories/CustomerTokensRepository"));
-var DeliveryTypeRepository_1 = __importDefault(require("@modules/DeliveryTypes/infra/typeorm/repositories/DeliveryTypeRepository"));
-tsyringe_1.container.registerSingleton("CartItemsRepository", CartItemsRepository_1.default);
-tsyringe_1.container.registerSingleton("CartsRepository", CartsRepository_1.default);
-tsyringe_1.container.registerSingleton("OrderRepository", OrderRepository_1.default);
-tsyringe_1.container.registerSingleton("OrderProductRepository", OrderProductRepository_1.default);
-tsyringe_1.container.registerSingleton("UsersRepository", UsersRepository_1.default);
-tsyringe_1.container.registerSingleton("UserTokensRepository", UserTokensRepository_1.default);
-tsyringe_1.container.registerSingleton("CustomersRepository", CustomersRepository_1.default);
-tsyringe_1.container.registerSingleton("CustomerTokensRepository", CustomerTokensRepository_1.default);
-tsyringe_1.container.registerSingleton("ProductsRepository", ProductsRepository_1.default);
-tsyringe_1.container.registerSingleton("DeliveryTypeRepository", DeliveryTypeRepository_1.default);
+
+var _CartItemsRepository = _interopRequireDefault(require("../../modules/Carts/infra/typeorm/repositories/CartItemsRepository"));
+
+var _CartsRepository = _interopRequireDefault(require("../../modules/Carts/infra/typeorm/repositories/CartsRepository"));
+
+var _OrderRepository = _interopRequireDefault(require("../../modules/Orders/infra/typeorm/repositories/OrderRepository"));
+
+var _OrderProductRepository = _interopRequireDefault(require("../../modules/Orders/infra/typeorm/repositories/OrderProductRepository"));
+
+var _UsersRepository = _interopRequireDefault(require("../../modules/Users/infra/typeorm/repositories/UsersRepository"));
+
+var _UserTokensRepository = _interopRequireDefault(require("../../modules/Users/infra/typeorm/repositories/UserTokensRepository"));
+
+var _ProductsRepository = _interopRequireDefault(require("../../modules/Products/infra/typeorm/repositories/ProductsRepository"));
+
+var _CustomersRepository = _interopRequireDefault(require("../../modules/Customers/infra/typeorm/repositories/CustomersRepository"));
+
+var _CustomerTokensRepository = _interopRequireDefault(require("../../modules/Customers/infra/typeorm/repositories/CustomerTokensRepository"));
+
+var _DeliveryTypeRepository = _interopRequireDefault(require("../../modules/DeliveryTypes/infra/typeorm/repositories/DeliveryTypeRepository"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_tsyringe.container.registerSingleton("CartItemsRepository", _CartItemsRepository.default);
+
+_tsyringe.container.registerSingleton("CartsRepository", _CartsRepository.default);
+
+_tsyringe.container.registerSingleton("OrderRepository", _OrderRepository.default);
+
+_tsyringe.container.registerSingleton("OrderProductRepository", _OrderProductRepository.default);
+
+_tsyringe.container.registerSingleton("UsersRepository", _UsersRepository.default);
+
+_tsyringe.container.registerSingleton("UserTokensRepository", _UserTokensRepository.default);
+
+_tsyringe.container.registerSingleton("CustomersRepository", _CustomersRepository.default);
+
+_tsyringe.container.registerSingleton("CustomerTokensRepository", _CustomerTokensRepository.default);
+
+_tsyringe.container.registerSingleton("ProductsRepository", _ProductsRepository.default);
+
+_tsyringe.container.registerSingleton("DeliveryTypeRepository", _DeliveryTypeRepository.default);

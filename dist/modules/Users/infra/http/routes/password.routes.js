@@ -1,32 +1,40 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var celebrate_1 = require("celebrate");
-var ForgotPasswordController_1 = __importDefault(require("../controllers/ForgotPasswordController"));
-var ResetPasswordController_1 = __importDefault(require("../controllers/ResetPasswordController"));
-var UsersController_1 = __importDefault(require("../controllers/UsersController"));
-var ensureAuthenticated_1 = __importDefault(require("../middlewares/ensureAuthenticated"));
-var passwordRouter = express_1.Router();
-var forgotPasswordController = new ForgotPasswordController_1.default();
-var resetPasswordController = new ResetPasswordController_1.default();
-var usersController = new UsersController_1.default();
-passwordRouter.post("/forgot", celebrate_1.celebrate((_a = {},
-    _a[celebrate_1.Segments.BODY] = {
-        email: celebrate_1.Joi.string().email().required(),
-    },
-    _a)), forgotPasswordController.create);
-passwordRouter.post("/reset", celebrate_1.celebrate((_b = {},
-    _b[celebrate_1.Segments.BODY] = {
-        token: celebrate_1.Joi.string().uuid().required,
-        password: celebrate_1.Joi.string().required(),
-        password_confirmation: celebrate_1.Joi.string()
-            .required()
-            .valid(celebrate_1.Joi.ref("password")),
-    },
-    _b)), resetPasswordController.create);
-passwordRouter.put('/', ensureAuthenticated_1.default, usersController.updatePassword);
-exports.default = passwordRouter;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _express = require("express");
+
+var _celebrate = require("celebrate");
+
+var _ForgotPasswordController = _interopRequireDefault(require("../controllers/ForgotPasswordController"));
+
+var _ResetPasswordController = _interopRequireDefault(require("../controllers/ResetPasswordController"));
+
+var _UsersController = _interopRequireDefault(require("../controllers/UsersController"));
+
+var _ensureAuthenticated = _interopRequireDefault(require("../middlewares/ensureAuthenticated"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const passwordRouter = (0, _express.Router)();
+const forgotPasswordController = new _ForgotPasswordController.default();
+const resetPasswordController = new _ResetPasswordController.default();
+const usersController = new _UsersController.default();
+passwordRouter.post("/forgot", (0, _celebrate.celebrate)({
+  [_celebrate.Segments.BODY]: {
+    email: _celebrate.Joi.string().email().required()
+  }
+}), forgotPasswordController.create);
+passwordRouter.post("/reset", (0, _celebrate.celebrate)({
+  [_celebrate.Segments.BODY]: {
+    token: _celebrate.Joi.string().uuid().required,
+    password: _celebrate.Joi.string().required(),
+    password_confirmation: _celebrate.Joi.string().required().valid(_celebrate.Joi.ref("password"))
+  }
+}), resetPasswordController.create);
+passwordRouter.put('/', _ensureAuthenticated.default, usersController.updatePassword);
+var _default = passwordRouter;
+exports.default = _default;
