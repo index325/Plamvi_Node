@@ -41,7 +41,7 @@ export default class SendForgotPasswordEmailService {
         name: customer.name,
         email: customer.email,
       },
-      subject: "[GoBarber] Recuperação de senha",
+      subject: "[Plamvi] Recuperação de senha",
       templateData: {
         file: forgotPasswordTemplate,
         variables: {
