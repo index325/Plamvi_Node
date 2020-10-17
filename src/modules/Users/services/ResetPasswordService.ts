@@ -2,12 +2,13 @@ import AppError from "@shared/errors/AppError";
 import IUsersRepository from "../repositories/IUsersRepository";
 import IUserTokenRepository from "../repositories/IUserTokenRepository";
 import IHashProvider from "../providers/HashProvider/models/IHashProvider";
-import { differenceInHours } from "date-fns";
+import { differenceInHours, differenceInMinutes } from "date-fns";
 import { injectable, inject } from "tsyringe";
 
 interface IRequest {
   password: string;
   token: string;
+  verification_code: string;
 }
 
 @injectable()
@@ -21,23 +22,30 @@ export default class ResetPasswordService {
     private hashProvider: IHashProvider
   ) {}
 
-  public async execute({ token, password }: IRequest): Promise<void> {
-    const userToken = await this.userTokenRepository.findByToken(token);
+  public async execute({
+    token,
+    password,
+    verification_code,
+  }: IRequest): Promise<void> {
+    const userToken = await this.userTokenRepository.findByTokenAndCode({
+      token,
+      verification_code,
+    });
 
     if (!userToken) {
-      throw new AppError("User token does not exists");
+      throw new AppError("Código de verificação inválido");
     }
 
     const user = await this.usersRepository.findById(userToken.user_id);
 
     if (!user) {
-      throw new AppError("User does not exists");
+      throw new AppError("Usuário inexistente");
     }
 
     const tokenCreatedAt = userToken.created_at;
 
-    if (differenceInHours(Date.now(), tokenCreatedAt) > 2) {
-      throw new AppError("Token expired");
+    if (differenceInMinutes(Date.now(), tokenCreatedAt) > 10) {
+      throw new AppError("Token expirado");
     }
 
     user.password = await this.hashProvider.generateHash(password);

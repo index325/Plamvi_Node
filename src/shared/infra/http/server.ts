@@ -24,10 +24,10 @@ app.use(
         message: err.message,
       });
     }
-    console.log(err)
+    console.log(err);
     return response.status(500).json({
       status: "error",
-      message: "Internal server error",
+      message: "Erro interno do servidor. Tente novamente mais tarde.",
     });
   }
 );

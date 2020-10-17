@@ -4,6 +4,7 @@ import IUserTokenRepository from "@modules/Users/repositories/IUserTokenReposito
 import IMailProvider from "@shared/container/providers/MailProvider/models/IMailProvider";
 import { injectable, inject } from "tsyringe";
 import path from "path";
+import IRandomNumberProvider from "@shared/container/providers/RandomNumberProvider/models/IRandomNumberProvider";
 
 interface IRequest {
   email: string;
@@ -16,18 +17,29 @@ export default class SendForgotPasswordEmailService {
     private usersRepository: IUsersRepository,
     @inject("MailProvider")
     private mailProvider: IMailProvider,
+    @inject("RandomNumberManualGeneration")
+    private randomNumberProvider: IRandomNumberProvider,
     @inject("UserTokensRepository")
     private userTokenRepository: IUserTokenRepository
   ) {}
 
-  public async execute({ email }: IRequest): Promise<void> {
+  public async execute({ email }: IRequest): Promise<string> {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError("User does not exists");
+      throw new AppError("Usuário inexistente");
     }
 
-    const { token } = await this.userTokenRepository.generate(user.id);
+    const recovery_code = this.randomNumberProvider.generate({
+      characterQuantity: 5,
+      min: 10,
+      max: 99999,
+    });
+
+    const { token } = await this.userTokenRepository.generate({
+      user_id: user.id,
+      recovery_code,
+    });
 
     const forgotPasswordTemplate = path.resolve(
       __dirname,
@@ -41,14 +53,16 @@ export default class SendForgotPasswordEmailService {
         name: user.name,
         email: user.email,
       },
-      subject: "[GoBarber] Recuperação de senha",
+      subject: "[Plamvi] Recuperação de senha",
       templateData: {
         file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          link: `${process.env.APP_WEB_URL}/reset_password?token=${token}`,
+          recovery_code,
         },
       },
     });
+
+    return token;
   }
 }

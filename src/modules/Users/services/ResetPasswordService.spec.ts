@@ -33,11 +33,15 @@ describe("UserResetPasswordService", () => {
       state: "CA",
     });
 
-    const { token } = await fakeUserTokensRepository.generate(user.id);
+    const { token } = await fakeUserTokensRepository.generate({
+      user_id: user.id,
+      recovery_code: "12345",
+    });
 
     const generateHash = jest.spyOn(fakeHashProvider, "generateHash");
 
     await resetPassword.execute({
+      verification_code: '12345',
       password: "123123",
       token,
     });
@@ -50,24 +54,27 @@ describe("UserResetPasswordService", () => {
   it("shoud not be able to reset the password with non-existing token", async () => {
     await expect(
       resetPassword.execute({
+        verification_code: '12345',
         token: "non-existing-token",
         password: "123456",
       })
     ).rejects.toBeInstanceOf(AppError);
   });
   it("shoud not be able to reset the password with non-existing user", async () => {
-    const { token } = await fakeUserTokensRepository.generate(
-      "non-existing-user"
-    );
+    const { token } = await fakeUserTokensRepository.generate({
+      user_id: "non-existing-user",
+      recovery_code: "12345",
+    });
 
     await expect(
       resetPassword.execute({
+        verification_code: '12345',
         token,
         password: "123456",
       })
     ).rejects.toBeInstanceOf(AppError);
   });
-  it("shoud not be able to reset the password if passed more than 2 hours", async () => {
+  it("shoud not be able to reset the password if passed more than 10 minutes", async () => {
     const user = await fakeUsersRepository.create({
       name: "John Doe",
       email: "john@example.com",
@@ -76,16 +83,20 @@ describe("UserResetPasswordService", () => {
       state: "CA",
     });
 
-    const { token } = await fakeUserTokensRepository.generate(user.id);
+    const { token } = await fakeUserTokensRepository.generate({
+      user_id: user.id,
+      recovery_code: "12345",
+    });
 
     jest.spyOn(Date, "now").mockImplementationOnce(() => {
       const customDate = new Date();
 
-      return customDate.setHours(customDate.getHours() + 3);
+      return customDate.setMinutes(customDate.getMinutes() + 20);
     });
 
     await expect(
       resetPassword.execute({
+        verification_code: '12345',
         password: "123123",
         token,
       })

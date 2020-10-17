@@ -19,6 +19,9 @@ class UserToken {
   @Column()
   user_id: string;
 
+  @Column()
+  recovery_code: string;
+
   @CreateDateColumn()
   created_at: Date;
 
