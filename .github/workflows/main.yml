@@ -32,8 +32,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: "dist"
-          target: "test"
+          source: "."
+          target: "~/app/Plamvi_Node"
 
 
 #copiar pasta dist pra dentro da digital ocean
