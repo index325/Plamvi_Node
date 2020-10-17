@@ -22,7 +22,7 @@ const prodConfig = [
     name: "default",
     type: "postgres",
     host: process.env.POSTGRES_HOST,
-    port: 5432,
+    port: 15432,
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASS,
     database: process.env.POSTGRES_NAME,
