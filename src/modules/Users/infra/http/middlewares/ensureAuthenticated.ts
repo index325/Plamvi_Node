@@ -17,7 +17,7 @@ export default async (
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    throw new AppError("JWT token is missing", 401);
+    throw new AppError("O token JWT está faltando", 401);
   }
 
   const { secret } = authConfig.jwt;
@@ -33,6 +33,6 @@ export default async (
 
     return next();
   } catch (error) {
-    throw new AppError("Invalid JWT token", 401);
+    throw new AppError("Token JWT inválido", 401);
   }
 };
